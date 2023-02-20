@@ -213,16 +213,83 @@ class OutlineButton extends StatelessWidget {
     return PrimaryButton(
         text: text,
         onPressed: onPressed,
-        options: const ButtonOptions(
-          borderSide: BorderSide(color: Colors.white, width: 1),
-          color: Colors.transparent,
-          textStyle: TextStyle(
-              color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
-        ));
+        options: ButtonOptions(
+            borderSide: const BorderSide(color: Colors.white, width: 1),
+            color: Colors.transparent,
+            textStyle: getButtonTextStyle(context, Colors.white)));
   }
 }
 
-getButtonTextStyle(BuildContext context, Color textColor) =>
+class RoundButton extends StatelessWidget {
+  final String text;
+  final Function()? onPressed;
+  final double? width, height;
+  final Color? color;
+  final Color? textColor;
+  final bool isOutline;
+  final IconData? iconData;
+  final Widget? icon;
+  final double radius;
+  final double padding;
+  const RoundButton(
+      {required this.text,
+      required this.onPressed,
+      this.height = 45,
+      this.width,
+      this.color,
+      this.isOutline = false,
+      this.textColor,
+      this.iconData,
+      this.icon,
+      this.radius = 32,
+      this.padding = 10,
+      Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        color: color ?? Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(radius),
+        border: isOutline ? getBorder(context) : null,
+      ),
+      child: TextButton(
+        onPressed: onPressed,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: padding),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (icon != null || iconData != null)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: icon ??
+                      Icon(
+                        iconData,
+                        size: 24,
+                        color: textColor ?? Colors.white,
+                      ),
+                ),
+              Text(
+                text,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: getButtonTextStyle(context, textColor ?? Colors.white)
+                    .copyWith(fontSize: 14),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+TextStyle getButtonTextStyle(BuildContext context, Color textColor) =>
     TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.w600);
 
 getBorder(BuildContext context) => BorderSide(

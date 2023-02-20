@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_booking/utils/icons.dart';
-import 'package:hotel_booking/view/screens/settings.dart';
+import 'package:hotel_booking/view/screens/services/services.dart';
+import 'package:hotel_booking/view/screens/settings/settings.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -16,7 +17,7 @@ class _DashboardPageState extends State<DashboardPage> {
     const Text('Page 1'),
     const Text('Page 2'),
     const Text('Page 3'),
-    const Text('Page 4'),
+    const ServicesScreen(),
     const SettingPage()
   ];
   @override
@@ -32,8 +33,10 @@ class _DashboardPageState extends State<DashboardPage> {
         child: BottomNavigationBar(
             iconSize: 26,
             currentIndex: _selectedIndex,
+            backgroundColor: Theme.of(context).primaryColor,
             selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white,
+            unselectedItemColor: Theme.of(context).disabledColor,
+            type: BottomNavigationBarType.fixed,
             onTap: (int index) {
               setState(() {
                 _selectedIndex = index;

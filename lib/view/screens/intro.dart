@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hotel_booking/helper/navigation.dart';
 import 'package:hotel_booking/utils/images.dart';
 import 'package:hotel_booking/view/base/button.dart';
+import 'package:hotel_booking/view/screens/auth/login.dart';
 import 'package:hotel_booking/view/screens/dashboard.dart';
 
 class IntroPage extends StatelessWidget {
@@ -35,9 +36,9 @@ class IntroPage extends StatelessWidget {
                       CustomButton(
                           textColor: Theme.of(context).primaryColor,
                           color: Colors.white,
-                          text: 'LOGIN',
+                          text: 'SIGN IN',
                           onPressed: () {
-                            launchScreen(const DashboardPage());
+                            launchScreen(const LoginScreen());
                           }),
                       const SizedBox(height: 20),
                       OutlineButton(
