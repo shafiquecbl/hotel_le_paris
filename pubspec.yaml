@@ -38,6 +38,7 @@ flutter:
     - assets/fonts/
     - assets/language/
     - assets/images/
+    - assets/icons/
 
   fonts:
     - family: Movie

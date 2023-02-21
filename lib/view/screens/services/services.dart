@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_booking/utils/images.dart';
 import 'package:hotel_booking/utils/style.dart';
-import 'package:hotel_booking/view/screens/services/widget/service_widget.dart';
+import 'package:hotel_booking/view/base/service_widget.dart';
 
 class ServicesScreen extends StatefulWidget {
   const ServicesScreen({super.key});

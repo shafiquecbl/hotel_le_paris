@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_booking/helper/navigation.dart';
 import 'package:hotel_booking/utils/images.dart';
-import 'intro.dart';
+import '../intro/intro.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -24,7 +24,6 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   changeSize() {
-    // change the size of the container with animation
     setState(() {
       initialWidth = 270;
       initialHeight = 270;

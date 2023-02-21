@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotel_booking/common/button.dart';
+import 'package:hotel_booking/common/language_dialog.dart';
 import 'package:hotel_booking/controller/theme_controller.dart';
 import 'package:hotel_booking/utils/icons.dart';
 import 'package:hotel_booking/utils/network_image.dart';
 import 'package:hotel_booking/utils/style.dart';
-import 'package:hotel_booking/view/base/button.dart';
-import 'package:hotel_booking/view/base/language_dialog.dart';
-import 'widget/progress_card.dart';
+import '../../base/progress_card.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({super.key});

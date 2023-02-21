@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hotel_booking/common/button.dart';
 import 'package:hotel_booking/helper/navigation.dart';
 import 'package:hotel_booking/utils/images.dart';
-import 'package:hotel_booking/view/base/button.dart';
 import 'package:hotel_booking/view/screens/auth/login.dart';
-import 'package:hotel_booking/view/screens/dashboard.dart';
 
 class IntroPage extends StatelessWidget {
   const IntroPage({super.key});

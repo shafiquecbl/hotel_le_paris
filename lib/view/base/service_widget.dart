@@ -35,7 +35,6 @@ class ServicesWidget extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Colors.black,
                     fontSize: fontSizeMedium(context),
                     fontWeight: fontWeightBold)),
           ),

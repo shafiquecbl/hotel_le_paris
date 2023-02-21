@@ -11,7 +11,7 @@ ThemeData light({Color color = const Color(0xFF224E91)}) => ThemeData(
       errorColor: const Color(0xFFE84D4F),
       brightness: Brightness.light,
       hintColor: const Color(0xFF9F9F9F),
-      cardColor: const Color(0xFFF1F4F8),
+      cardColor: const Color(0xFFF6F6F6),
       colorScheme: ColorScheme.light(primary: color, secondary: color)
           .copyWith(background: const Color(0xFFFFFFFF))
           .copyWith(error: const Color(0xFFE84D4F)),

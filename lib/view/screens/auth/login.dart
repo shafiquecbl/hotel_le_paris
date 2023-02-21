@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hotel_booking/common/button.dart';
+import 'package:hotel_booking/common/textfield.dart';
 import 'package:hotel_booking/helper/navigation.dart';
 import 'package:hotel_booking/utils/icons.dart';
 import 'package:hotel_booking/utils/images.dart';
 import 'package:hotel_booking/utils/style.dart';
-import 'package:hotel_booking/view/base/button.dart';
-import 'package:hotel_booking/view/base/textfield.dart';
 import 'package:hotel_booking/view/screens/auth/signup.dart';
-import 'package:hotel_booking/view/screens/dashboard.dart';
+import 'package:hotel_booking/view/screens/dashboard/dashboard.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 50),
                 CustomButton(
-                    text: 'SIGN IN',
+                    text: 'Sign In',
                     onPressed: () {
                       launchScreen(const DashboardPage());
                     }),

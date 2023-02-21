@@ -7,7 +7,7 @@ import 'controller/localization_controller.dart';
 import 'theme/dark_theme.dart';
 import 'theme/light_theme.dart';
 import 'utils/messages.dart';
-import 'view/screens/splash.dart';
+import 'view/screens/splash/splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
