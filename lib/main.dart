@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_booking/controller/theme_controller.dart';
 import 'package:hotel_booking/utils/app_constants.dart';
+import 'package:hotel_booking/view/screens/dashboard/dashboard.dart';
 import 'helper/get_di.dart' as di;
 import 'controller/localization_controller.dart';
 import 'theme/dark_theme.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
           translations: Messages(languages: languages),
           fallbackLocale: Locale(AppConstants.languages[0].languageCode,
               AppConstants.languages[0].countryCode),
-          home: const SplashScreen(),
+          home: const DashboardPage(),
         );
       });
     }));

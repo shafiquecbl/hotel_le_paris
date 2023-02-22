@@ -4,7 +4,7 @@ import 'package:hotel_booking/common/textfield.dart';
 import 'package:hotel_booking/data/model/food.dart';
 import 'package:hotel_booking/utils/images.dart';
 import 'package:hotel_booking/utils/network_image.dart';
-import 'package:hotel_booking/view/base/food_widget_horizontal.dart';
+import 'package:hotel_booking/view/base/food_view.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -55,7 +55,7 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 FoodViewHorizontal(title: 'Popular Drinks', foods: drinks),
                 FoodViewHorizontal(title: 'Breakfast', foods: breakfast),
-                FoodViewHorizontal(title: 'Dinner', foods: dinner),
+                // FoodViewHorizontal(title: 'Dinner', foods: dinner),
               ],
             ),
           ))

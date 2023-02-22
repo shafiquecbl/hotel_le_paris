@@ -43,7 +43,7 @@ class _DashboardPageState extends State<DashboardPage> {
             _bottomItem(Images.rooms, 'rooms'.tr),
             _bottomItem(Images.cart, 'cart'.tr),
             _bottomItem(Images.servicesIcon, 'services'.tr),
-            _bottomItem(Images.settings, 'settings'.tr),
+            _bottomItem(Images.settings, 'account'.tr),
           ]),
     );
   }

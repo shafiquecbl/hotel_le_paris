@@ -86,3 +86,5 @@ class LocalizationController extends GetxController implements GetxService {
 
   static LocalizationController get to => Get.find();
 }
+
+bool get isLtr => LocalizationController.to.isLtr;

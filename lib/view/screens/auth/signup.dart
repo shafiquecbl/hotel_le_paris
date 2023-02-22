@@ -35,9 +35,10 @@ class _SignupScreenState extends State<SignupScreen> {
         Image.asset(Images.background, fit: BoxFit.cover),
         Column(
           children: [
+            const SizedBox(height: 40),
             Image.asset(
               Images.logo,
-              width: MediaQuery.of(context).size.width * 0.8,
+              width: MediaQuery.of(context).size.width * 0.7,
             ),
           ],
         ),
