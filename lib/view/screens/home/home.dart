@@ -1,14 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_booking/common/textfield.dart';
-import 'package:hotel_booking/data/model/response/food.dart';
+import 'package:hotel_booking/controller/auth_controller.dart';
+import 'package:hotel_booking/controller/categories_controller.dart';
+import 'package:hotel_booking/controller/food_controller.dart';
 import 'package:hotel_booking/utils/images.dart';
 import 'package:hotel_booking/utils/network_image.dart';
 import 'package:hotel_booking/utils/style.dart';
 import 'package:hotel_booking/view/base/food_view.dart';
+import 'package:shimmer/shimmer.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    initAllData();
+    super.initState();
+  }
+
+  initAllData({bool reload = false}) async {
+    await CategoryController.to.init(reload: reload);
+    await FoodController.to.init(reload: reload);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,46 +43,111 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 10),
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 25,
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: const CustomNetworkImage(
-                            url:
-                                'https://media.licdn.com/dms/image/D4D03AQEn19TZB9AK1w/profile-displayphoto-shrink_400_400/0/1664789524738?e=1682553600&v=beta&t=AfJ6iVi9ah3aH4KuqwNjl-_NRckzaLkCuDAPfm-KNps')),
-                  ),
-                  const SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text('Hello,', style: TextStyle(fontSize: 18)),
-                      Text('Muhammad Shafique',
-                          style: TextStyle(fontWeight: fontWeightNormal)),
-                    ],
-                  ),
-                ],
-              ),
+              GetBuilder<AuthController>(builder: (con) {
+                return con.appUser != null
+                    ? Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 25,
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: CustomNetworkImage(
+                                    url: con.appUser!.image!)),
+                          ),
+                          const SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('Hello,',
+                                  style: TextStyle(fontSize: 18)),
+                              Text(con.appUser!.name!,
+                                  style: const TextStyle(
+                                      fontWeight: fontWeightNormal)),
+                            ],
+                          ),
+                        ],
+                      )
+                    : Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(50)),
+                            ),
+                            const SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 100,
+                                  height: 20,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(5)),
+                                ),
+                                const SizedBox(height: 5),
+                                Container(
+                                  width: 150,
+                                  height: 20,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(5)),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+              }),
               const SizedBox(height: 10),
-              Expanded(
-                  child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 10),
-                    CustomTextField(
-                      padding: EdgeInsets.zero,
-                      controller: search,
-                      hintText: 'Search for hotels',
-                      prefixIcon: const Icon(Icons.search_rounded),
-                    ),
-                    const SizedBox(height: 20),
-                    FoodViewHorizontal(title: 'Popular Drinks', foods: drinks),
-                    FoodViewHorizontal(title: 'Breakfast', foods: breakfast),
-                    // FoodViewHorizontal(title: 'Dinner', foods: dinner),
-                  ],
-                ),
-              ))
+              GetBuilder<CategoryController>(builder: (categoryController) {
+                return GetBuilder<FoodController>(builder: (foodController) {
+                  return Expanded(
+                      flex: 1,
+                      child: RefreshIndicator(
+                        onRefresh: () async {
+                          initAllData(reload: true);
+                        },
+                        child: ListView(
+                          children: [
+                            const SizedBox(height: 10),
+                            CustomTextField(
+                              padding: EdgeInsets.zero,
+                              controller: search,
+                              hintText: 'Search for hotels',
+                              prefixIcon: const Icon(Icons.search_rounded),
+                            ),
+                            const SizedBox(height: 20),
+                            if (categoryController.isLoading ||
+                                foodController.isLoading) ...[
+                              for (var i = 0; i < 3; i++) ...[
+                                const FoodViewShimmer(),
+                                const SizedBox(height: 5),
+                              ]
+                            ] else ...[
+                              for (var i = 0;
+                                  i < CategoryController.to.categoryList.length;
+                                  i++)
+                                FoodViewHorizontal(
+                                    title: categoryController.getCategoryName(
+                                        categoryController.categoryList[i].id!),
+                                    foods: FoodController.to.foodList
+                                        .where((food) =>
+                                            food.category ==
+                                            categoryController
+                                                .categoryList[i].id)
+                                        .toList()),
+                            ]
+                          ],
+                        ),
+                      ));
+                });
+              })
             ],
           ),
         ));

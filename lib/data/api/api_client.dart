@@ -13,11 +13,10 @@ import 'package:http/http.dart' as http;
 const String NO_INTERNET = 'no internet';
 
 class ApiClient extends GetxService {
-  static const String noInternetMessage =
-      'Connection to API server failed due to internet connection';
   final int timeoutInSeconds = 30;
 
-  Future<dynamic> getData(String uri, {Map<String, String>? headers}) async {
+  Future<http.Response?> getData(String uri,
+      {Map<String, String>? headers}) async {
     try {
       debugPrint('====> API Call: $uri\nHeader: $headers');
       http.Response response = await http
@@ -26,11 +25,11 @@ class ApiClient extends GetxService {
       return response;
     } catch (e) {
       socketException(e);
-      return NO_INTERNET;
+      return null;
     }
   }
 
-  Future<dynamic> postData(String uri, Map<String, dynamic> body,
+  Future<http.Response?> postData(String uri, Map<String, dynamic> body,
       {Map<String, String>? headers}) async {
     try {
       debugPrint('====> API Call: $uri\nHeader:  ${headers ?? mainHeaders}');
@@ -46,11 +45,11 @@ class ApiClient extends GetxService {
       return response;
     } catch (e) {
       socketException(e);
-      return NO_INTERNET;
+      return null;
     }
   }
 
-  Future<dynamic> postMultipartData(
+  Future<http.Response?> postMultipartData(
       String uri, List<MultipartBody> multipartBody,
       {Map<String, String>? body, Map<String, String>? headers}) async {
     try {
@@ -78,11 +77,11 @@ class ApiClient extends GetxService {
       return _response;
     } catch (e) {
       socketException(e);
-      return NO_INTERNET;
+      return null;
     }
   }
 
-  Future<dynamic> putData(String uri, Map<String, dynamic> body,
+  Future<http.Response?> putData(String uri, Map<String, dynamic> body,
       {Map<String, String>? headers}) async {
     try {
       debugPrint('====> API Call: $uri\nHeader: $mainHeaders');
@@ -97,11 +96,12 @@ class ApiClient extends GetxService {
       return _response;
     } catch (e) {
       socketException(e);
-      return NO_INTERNET;
+      return null;
     }
   }
 
-  Future<dynamic> deleteData(String uri, {Map<String, String>? headers}) async {
+  Future<http.Response?> deleteData(String uri,
+      {Map<String, String>? headers}) async {
     try {
       debugPrint('====> API Call: $uri\nHeader: $mainHeaders');
       http.Response _response = await http
@@ -113,7 +113,7 @@ class ApiClient extends GetxService {
       return _response;
     } catch (e) {
       socketException(e);
-      return NO_INTERNET;
+      return null;
     }
   }
 }

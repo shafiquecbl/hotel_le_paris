@@ -22,3 +22,5 @@ getSnackBar(String message, {String? title, bool success = true}) {
           description: Text(message),
         ).show(Get.context!);
 }
+
+errorMessage() => getSnackBar('No Internet Connection', success: false);

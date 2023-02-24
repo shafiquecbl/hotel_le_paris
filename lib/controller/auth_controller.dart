@@ -29,15 +29,13 @@ class AuthController extends GetxController implements GetxService {
       }
       return response['status'];
     } else {
+      errorMessage();
       return false;
     }
   }
 
   Future<void> getUser() async {
     appUser = await authRepo.getUser(user!.email!);
-    if (appUser!.image != null && appUser!.image!.isNotEmpty) {
-      appUser!.image = appUser!.image!;
-    }
     update();
   }
 

@@ -42,7 +42,7 @@ class _CustomNetworkImageState extends State<CustomNetworkImage> {
           height: double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(widget.loadingRadius),
-            color: Theme.of(context).cardColor,
+            color: Theme.of(context).scaffoldBackgroundColor,
           ),
           child: Icon(
             Icons.image_outlined,

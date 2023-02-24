@@ -25,10 +25,9 @@ class AuthRepo {
   Future<AppUser?> getUser(String email) async {
     var response =
         await apiClient.getData("${AppConstants.getUserURL}?email=$email");
-    if (response != NO_INTERNET) {
+    if (response != null) {
       log(response.body);
-      response = jsonDecode(response.body);
-      return AppUser.fromJson(response);
+      return AppUser.fromJson(jsonDecode(response.body));
     } else {
       return null;
     }
@@ -36,17 +35,17 @@ class AuthRepo {
 
   // if user not exist save user
   Future<void> saveUser(Map<String, dynamic> data) async {
-    return await apiClient.postData(AppConstants.storeUserURL, data);
+    await apiClient.postData(AppConstants.storeUserURL, data);
   }
 
   // update user
   Future<void> updateUser(Map<String, dynamic> data) async {
-    return await apiClient.postData(AppConstants.updateUserURL, data);
+    await apiClient.postData(AppConstants.updateUserURL, data);
   }
 
   // upload user image
   Future<void> uploadUserImage(String email, File file) async {
-    return await apiClient.postMultipartData(AppConstants.updateUserImage,
+    await apiClient.postMultipartData(AppConstants.updateUserImage,
         [MultipartBody('image', XFile(file.path))],
         body: {'email': email});
   }

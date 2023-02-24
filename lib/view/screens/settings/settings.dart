@@ -40,15 +40,10 @@ class SettingPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('John Doe',
+                    Text(AuthController.to.appUser!.name!,
                         style: TextStyle(
                             fontSize: fontSizeLarge(context),
                             fontWeight: FontWeight.bold)),
-                    Text('Traveler',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(fontWeight: fontWeightNormal)),
                     const SizedBox(height: 5),
                     Row(
                       children: [

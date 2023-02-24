@@ -15,6 +15,13 @@ class AppConstants {
   static const String updateUserURL = '$baseURL/users/update-user';
   static const String updateUserImage = '$baseURL/users/update-image';
 
+  // category
+  static const String getCategoryURL = '$baseURL/category/get';
+  static String getSubCategoryURL = '$baseURL/sub-category/get';
+
+  // food
+  static String getFoodListURL = '$baseURL/item/get';
+
   // Shared Key
   static const String THEME = 'theme';
   static const String COUNTRY_CODE = 'country_code';

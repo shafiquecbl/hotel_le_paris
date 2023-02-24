@@ -146,11 +146,14 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
                   Expanded(
                     child: Row(
                       children: [
-                        Text(
-                          widget.food.title!,
-                          style: Theme.of(context).textTheme.headline6,
+                        Expanded(
+                          child: Text(
+                            widget.food.title!,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
                         ),
-                        const Spacer(),
                         const SizedBox(width: 10),
                         Text(
                           '\$${widget.food.price}',

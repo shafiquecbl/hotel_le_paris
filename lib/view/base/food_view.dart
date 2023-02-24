@@ -8,6 +8,7 @@ import 'package:hotel_booking/utils/images.dart';
 import 'package:hotel_booking/utils/network_image.dart';
 import 'package:hotel_booking/utils/style.dart';
 import 'package:hotel_booking/view/screens/home/food_detail_page.dart';
+import 'package:shimmer/shimmer.dart';
 
 class FoodViewHorizontal extends StatelessWidget {
   final String title;
@@ -49,10 +50,7 @@ class FoodViewHorizontal extends StatelessWidget {
                 itemCount: foods.length,
                 itemBuilder: (context, index) {
                   return FoodWidgetHorizontal(
-                      food: foods[index],
-                      discount: index.isEven,
-                      favourite: index.isEven,
-                      isLast: index == foods.length - 1);
+                      food: foods[index], isLast: index == foods.length - 1);
                 }),
           ),
         ],
@@ -63,15 +61,9 @@ class FoodViewHorizontal extends StatelessWidget {
 
 class FoodWidgetHorizontal extends StatelessWidget {
   final FoodModel food;
-  final bool discount;
-  final bool favourite;
   final bool isLast;
   const FoodWidgetHorizontal(
-      {required this.food,
-      required this.discount,
-      required this.favourite,
-      this.isLast = false,
-      super.key});
+      {required this.food, this.isLast = false, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +123,7 @@ class FoodWidgetHorizontal extends StatelessWidget {
                         ),
                         const SizedBox(width: 5),
                         Text(
-                          food.rating.toString(),
+                          '5.0'.toString(),
                           style: const TextStyle(fontSize: 10),
                         ),
                       ],
@@ -161,6 +153,115 @@ class FoodWidgetHorizontal extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+// food view shimmer
+class FoodViewShimmer extends StatelessWidget {
+  const FoodViewShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Image.asset(Images.medal),
+              const SizedBox(width: 5),
+              Container(
+                height: 15,
+                width: 150,
+                color: Colors.grey[300],
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            height: Get.width / 2.35,
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return const FoodWidgetShimmer();
+                }),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class FoodWidgetShimmer extends StatelessWidget {
+  const FoodWidgetShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 15),
+      child: Container(
+        width: Get.width / 2.6,
+        padding: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(radius)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: Get.width / 2.6,
+              height: Get.width / 3.7,
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                borderRadius: BorderRadius.circular(radius),
+              ),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(radius),
+                  child: Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Container(
+                        color: Colors.grey[300],
+                      ))),
+            ),
+            const SizedBox(height: 5),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    height: 15,
+                    color: Colors.grey[300],
+                  ),
+                ),
+                const SizedBox(width: 5),
+                Container(
+                  height: 15,
+                  width: 50,
+                  color: Colors.grey[300],
+                ),
+              ],
+            ),
+            const SizedBox(height: 5),
+            Row(
+              children: [
+                Container(
+                  height: 15,
+                  width: 50,
+                  color: Colors.grey[300],
+                ),
+                const Spacer(),
+                Container(
+                  height: 15,
+                  width: 15,
+                  color: Colors.grey[300],
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

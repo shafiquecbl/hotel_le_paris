@@ -12,9 +12,10 @@ ThemeData light({Color color = const Color(0xFF224E91)}) => ThemeData(
       brightness: Brightness.light,
       hintColor: const Color(0xFF9F9F9F),
       cardColor: const Color(0xFFF6F6F6),
-      colorScheme: ColorScheme.light(primary: color, secondary: color)
-          .copyWith(background: const Color(0xFFFFFFFF))
-          .copyWith(error: const Color(0xFFE84D4F)),
+      colorScheme: ColorScheme.light(primary: color, secondary: color).copyWith(
+          background: const Color(0xFFFFFFFF),
+          error: const Color(0xFFdd3135),
+          outline: const Color(0xFFF4F4F4)),
       textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(foregroundColor: color)),
       textTheme: const TextTheme(
