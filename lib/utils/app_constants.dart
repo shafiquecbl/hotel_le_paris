@@ -7,7 +7,7 @@ class AppConstants {
   static const String APP_NAME = 'Hotel Le Paris';
 
   // API's
-  static const String domain = 'https://admin.dcodax.net';
+  static const String domain = 'https://hotel.dcodax.net';
   static const String baseURL = '$domain/api/frontend';
   static const String checkEmailURL = '$baseURL/check_email';
   static const String getUserURL = '$baseURL/users/get';

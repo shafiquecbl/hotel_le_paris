@@ -8,6 +8,8 @@ class CustomTextField extends StatelessWidget {
   final bool obscureText;
   final EdgeInsetsGeometry? padding;
   final TextInputType keyboardType;
+  final String? Function(String?)? validator;
+  final bool readOnly;
   const CustomTextField(
       {required this.controller,
       this.hintText,
@@ -17,6 +19,8 @@ class CustomTextField extends StatelessWidget {
       this.obscureText = false,
       this.padding,
       this.keyboardType = TextInputType.text,
+      this.validator,
+      this.readOnly = false,
       Key? key})
       : super(key: key);
 
@@ -46,6 +50,8 @@ class CustomTextField extends StatelessWidget {
             controller: controller,
             obscureText: obscureText,
             keyboardType: keyboardType,
+            readOnly: readOnly,
+            validator: validator,
             decoration: InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 prefixIcon: prefixIcon,

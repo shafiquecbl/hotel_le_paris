@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_booking/common/button.dart';
 import 'package:hotel_booking/common/language_dialog.dart';
+import 'package:hotel_booking/controller/auth_controller.dart';
 import 'package:hotel_booking/controller/theme_controller.dart';
+import 'package:hotel_booking/helper/navigation.dart';
 import 'package:hotel_booking/utils/icons.dart';
 import 'package:hotel_booking/utils/network_image.dart';
 import 'package:hotel_booking/utils/style.dart';
+import 'package:hotel_booking/view/screens/profile/edit_profile.dart';
 import '../../base/progress_card.dart';
 
 class SettingPage extends StatelessWidget {
@@ -23,14 +26,13 @@ class SettingPage extends StatelessWidget {
           // user image
           Row(
             children: [
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 50,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                  borderRadius: const BorderRadius.all(Radius.circular(50)),
                   child: CustomNetworkImage(
                       loadingRadius: 50,
-                      url:
-                          'https://media.licdn.com/dms/image/D4D03AQEn19TZB9AK1w/profile-displayphoto-shrink_400_400/0/1664789524738?e=1682553600&v=beta&t=AfJ6iVi9ah3aH4KuqwNjl-_NRckzaLkCuDAPfm-KNps'),
+                      url: AuthController.to.appUser!.image!),
                 ),
               ),
               const SizedBox(width: 20),
@@ -56,7 +58,9 @@ class SettingPage extends StatelessWidget {
                             padding: 5,
                             text: 'Edit Profile',
                             iconData: FFIcons.edit,
-                            onPressed: () {}),
+                            onPressed: () {
+                              launchScreen(const EditProfile());
+                            }),
                       ],
                     ),
                   ],

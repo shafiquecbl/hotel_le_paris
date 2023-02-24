@@ -1,85 +1,25 @@
 // ignore_for_file: file_names
 
-import 'dart:convert';
-
 class AppUser {
   AppUser(
-      {this.name,
-      this.id,
-      this.email,
-      this.image,
-      this.dob,
-      this.blood,
-      this.phoneNumber,
-      this.isPremium,
-      this.bikeType,
-      this.coverImage,
-      this.medicalCondition,
-      this.emergencyContact,
-      this.licenceCountry,
-      this.licenseCategory,
-      this.milage});
+      {this.id, this.name, this.email, this.phone, this.password, this.image});
   int? id;
-  String? name,
-      email,
-      dob,
-      blood,
-      phoneNumber,
-      image,
-      coverImage,
-      bikeType,
-      emergencyContact,
-      medicalCondition,
-      milage,
-      licenseCategory;
-  bool? isPremium;
-  UserCountry? licenceCountry;
+  String? name, email, phone, password, image;
 
-  factory AppUser.fromMap(Map<String, dynamic> json) => AppUser(
-      id: json["id"],
-      name: json["name"],
-      image: json["image"],
-      email: json["email"],
-      dob: json["dob"],
-      blood: json["blood"],
-      phoneNumber: json["phoneNumber"],
-      isPremium: json["isPremium"] == 1 ? true : false,
-      milage: json["mileage"],
-      bikeType: json["bikeType"],
-      emergencyContact: json["emergencyContact"],
-      medicalCondition: json["medicalCondition"],
-      licenceCountry: json["licenceCountry"] == null
-          ? null
-          : UserCountry.fromMap(jsonDecode(json["licenceCountry"])),
-      licenseCategory: json["licenseCategory"],
-      coverImage: json["coverImage"]);
+  factory AppUser.fromJson(Map<String, dynamic> json) => AppUser(
+        id: json['id'],
+        name: json['name'],
+        email: json['email'],
+        phone: json['phoneNumber'],
+        password: json['password'],
+        image: json['image'],
+      );
 
-  Map<String, dynamic> toMap() => {
-        "name": name,
-        "email": email,
-        "dob": dob,
-        "blood": blood,
-        "phoneNumber": phoneNumber,
-        "isPremium": isPremium,
-        "image": image,
-        "coverImage": coverImage,
-        "mileage": milage,
-        "medicalCondition": medicalCondition,
-        "emergencyContact": emergencyContact,
-        "bikeType": bikeType,
-        "licenceCountry":
-            licenceCountry == null ? null : licenceCountry!.toMap(),
-        "licenseCategory": licenseCategory
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'email': email,
+        'phoneNumber': phone,
+        'password': password,
+        'image': image,
       };
-}
-
-class UserCountry {
-  UserCountry({this.country, this.code});
-
-  String? country, code;
-
-  factory UserCountry.fromMap(Map<String, dynamic> json) =>
-      UserCountry(country: json["country"], code: json["code"]);
-
-  Map<String, dynamic> toMap() => {"country": country, "code": code};
 }

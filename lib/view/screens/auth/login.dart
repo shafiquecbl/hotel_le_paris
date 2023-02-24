@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:hotel_booking/common/button.dart';
 import 'package:hotel_booking/common/tabbutton.dart';
 import 'package:hotel_booking/common/textfield.dart';
+import 'package:hotel_booking/controller/auth_controller.dart';
 import 'package:hotel_booking/helper/navigation.dart';
 import 'package:hotel_booking/utils/icons.dart';
-import 'package:hotel_booking/utils/images.dart';
 import 'package:hotel_booking/utils/style.dart';
 import 'package:hotel_booking/view/screens/auth/signup.dart';
-import 'package:hotel_booking/view/screens/dashboard/dashboard.dart';
+import 'package:hotel_booking/view/screens/auth/widget/verify_email_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final bool verificationn;
+  const LoginScreen({this.verificationn = false, super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -19,6 +21,18 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+
+  @override
+  void initState() {
+    if (widget.verificationn) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+            context: context, builder: (context) => const VerifyEmailDialog());
+      });
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +67,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   prefixIcon: const Icon(FFIcons.email),
                 ),
                 CustomTextField(
-                  controller: email,
+                  controller: password,
+                  obscureText: true,
                   labelText: 'Password',
                   hintText: 'Enter your password',
                   prefixIcon: const Icon(FFIcons.lock),
@@ -62,7 +77,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 CustomButton(
                     text: 'Sign In',
                     onPressed: () {
-                      launchScreen(const DashboardPage());
+                      AuthController.to
+                          .loginUser(context, email.text, password.text);
                     }),
                 const SizedBox(height: 10),
                 // dont have account text

@@ -16,16 +16,12 @@ class ApiClient extends GetxService {
   static const String noInternetMessage =
       'Connection to API server failed due to internet connection';
   final int timeoutInSeconds = 30;
-  final Map<String, String> _mainHeaders = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-  };
 
   Future<dynamic> getData(String uri, {Map<String, String>? headers}) async {
     try {
       debugPrint('====> API Call: $uri\nHeader: $headers');
       http.Response response = await http
-          .get(Uri.parse(uri), headers: headers ?? _mainHeaders)
+          .get(Uri.parse(uri), headers: headers ?? mainHeaders)
           .timeout(Duration(seconds: timeoutInSeconds));
       return response;
     } catch (e) {
@@ -37,13 +33,13 @@ class ApiClient extends GetxService {
   Future<dynamic> postData(String uri, Map<String, dynamic> body,
       {Map<String, String>? headers}) async {
     try {
-      debugPrint('====> API Call: $uri\nHeader:  ${headers ?? _mainHeaders}');
+      debugPrint('====> API Call: $uri\nHeader:  ${headers ?? mainHeaders}');
       debugPrint('====> API Body: $body');
       http.Response response = await http
           .post(
             Uri.parse(uri),
             body: jsonEncode(body),
-            headers: headers ?? _mainHeaders,
+            headers: headers ?? mainHeaders,
           )
           .timeout(Duration(seconds: timeoutInSeconds));
       log(response.body);
@@ -58,11 +54,11 @@ class ApiClient extends GetxService {
       String uri, List<MultipartBody> multipartBody,
       {Map<String, String>? body, Map<String, String>? headers}) async {
     try {
-      debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
+      debugPrint('====> API Call: $uri\nHeader: $mainHeaders');
       debugPrint('====> API Body: $body');
       http.MultipartRequest _request =
           http.MultipartRequest('POST', Uri.parse(uri));
-      _request.headers.addAll(headers ?? _mainHeaders);
+      _request.headers.addAll(headers ?? mainHeaders);
       for (MultipartBody multipart in multipartBody) {
         if (multipart.file != null) {
           File _file = File(multipart.file.path);
@@ -89,13 +85,13 @@ class ApiClient extends GetxService {
   Future<dynamic> putData(String uri, Map<String, dynamic> body,
       {Map<String, String>? headers}) async {
     try {
-      debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
+      debugPrint('====> API Call: $uri\nHeader: $mainHeaders');
       debugPrint('====> API Body: $body');
       http.Response _response = await http
           .put(
             Uri.parse(uri),
             body: jsonEncode(body),
-            headers: headers ?? _mainHeaders,
+            headers: headers ?? mainHeaders,
           )
           .timeout(Duration(seconds: timeoutInSeconds));
       return _response;
@@ -107,11 +103,11 @@ class ApiClient extends GetxService {
 
   Future<dynamic> deleteData(String uri, {Map<String, String>? headers}) async {
     try {
-      debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
+      debugPrint('====> API Call: $uri\nHeader: $mainHeaders');
       http.Response _response = await http
           .delete(
             Uri.parse(uri),
-            headers: headers ?? _mainHeaders,
+            headers: headers ?? mainHeaders,
           )
           .timeout(Duration(seconds: timeoutInSeconds));
       return _response;
@@ -151,11 +147,12 @@ socketException(Object e) {
   }
 }
 
-Map<String, String> get headers => token.isNotEmpty
+Map<String, String> get mainHeaders => token.isNotEmpty
     ? {
         "Content-Type": "application/json",
         "Authorization": 'Bearer $token',
       }
     : {
         "Content-Type": "application/json",
+        'Accept': 'application/json',
       };

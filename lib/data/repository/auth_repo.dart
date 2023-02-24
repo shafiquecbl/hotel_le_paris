@@ -16,19 +16,9 @@ class AuthRepo {
   AuthRepo({required this.apiClient, required this.sharedPreferences});
 
   // user exist
-  Future<bool> isUserExist(String email) async {
-    var response =
-        await apiClient.postData(AppConstants.checkEmailURL, {'email': email});
-    if (response != NO_INTERNET) {
-      log(response.body);
-      response = jsonDecode(response.body);
-      if (response['status'] == true) {
-        token = response['token'];
-      }
-      return response['status'];
-    } else {
-      return false;
-    }
+  Future<dynamic> isUserExist(String email) async {
+    return await apiClient
+        .postData(AppConstants.checkEmailURL, {'email': email});
   }
 
   // get user
@@ -38,7 +28,7 @@ class AuthRepo {
     if (response != NO_INTERNET) {
       log(response.body);
       response = jsonDecode(response.body);
-      return AppUser.fromMap(response);
+      return AppUser.fromJson(response);
     } else {
       return null;
     }
@@ -46,18 +36,18 @@ class AuthRepo {
 
   // if user not exist save user
   Future<void> saveUser(Map<String, dynamic> data) async {
-    await apiClient.postData(AppConstants.storeUserURL, data);
+    return await apiClient.postData(AppConstants.storeUserURL, data);
   }
 
   // update user
   Future<void> updateUser(Map<String, dynamic> data) async {
-    await apiClient.postData(AppConstants.updateUserURL, data);
+    return await apiClient.postData(AppConstants.updateUserURL, data);
   }
 
   // upload user image
-  Future<void> uploadUserImage(String email, File file, bool image) async {
-    await apiClient.postMultipartData(AppConstants.updateUserImage,
-        [MultipartBody(image ? 'image' : 'coverImage', XFile(file.path))],
+  Future<void> uploadUserImage(String email, File file) async {
+    return await apiClient.postMultipartData(AppConstants.updateUserImage,
+        [MultipartBody('image', XFile(file.path))],
         body: {'email': email});
   }
 }

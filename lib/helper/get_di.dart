@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:hotel_booking/controller/auth_controller.dart';
 import 'package:hotel_booking/controller/localization_controller.dart';
 import 'package:hotel_booking/controller/theme_controller.dart';
+import 'package:hotel_booking/data/api/api_client.dart';
 import 'package:hotel_booking/data/model/body/language.dart';
 import 'package:hotel_booking/data/repository/auth_repo.dart';
 import 'package:hotel_booking/data/repository/language_repo.dart';
@@ -13,15 +15,17 @@ Future<Map<String, Map<String, String>>> init() async {
   // Core
   final sharedPreferences = await SharedPreferences.getInstance();
   Get.lazyPut(() => sharedPreferences);
+  Get.lazyPut(() => ApiClient());
 
   // Repository
   Get.lazyPut(() => LanguageRepo());
+  Get.lazyPut(
+      () => AuthRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
 
   // Controller
   Get.lazyPut(() => ThemeController(sharedPreferences: Get.find()));
   Get.lazyPut(() => LocalizationController(sharedPreferences: Get.find()));
-  Get.lazyPut(
-      () => AuthRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
+  Get.lazyPut(() => AuthController(authRepo: Get.find()));
 
   // Retrieving localized data
   Map<String, Map<String, String>> languages = {};
