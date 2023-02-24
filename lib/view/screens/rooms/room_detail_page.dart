@@ -1,10 +1,9 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:hotel_booking/common/button.dart';
 import 'package:hotel_booking/common/icons.dart';
 import 'package:hotel_booking/common/tabbutton.dart';
-import 'package:hotel_booking/data/model/room.dart';
+import 'package:hotel_booking/data/model/response/room.dart';
 import 'package:hotel_booking/utils/icons.dart';
 import 'package:hotel_booking/utils/network_image.dart';
 import 'package:hotel_booking/utils/style.dart';

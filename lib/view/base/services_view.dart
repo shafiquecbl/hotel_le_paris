@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_booking/common/icons.dart';
-import 'package:hotel_booking/data/model/response/room.dart';
-import 'package:hotel_booking/helper/navigation.dart';
+import 'package:hotel_booking/data/model/response/service.dart';
 import 'package:hotel_booking/utils/icons.dart';
 import 'package:hotel_booking/utils/network_image.dart';
 import 'package:hotel_booking/utils/style.dart';
-import 'package:hotel_booking/view/screens/rooms/room_detail_page.dart';
 
-class RoomView extends StatelessWidget {
-  const RoomView({super.key});
+class ServicesView extends StatelessWidget {
+  const ServicesView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: 3,
+        itemCount: services.length,
         padding: const EdgeInsets.only(top: 15),
         itemBuilder: (context, index) {
-          return RoomWidget(room: rooms[index], favourite: index.isOdd);
+          return ServiceWidget(
+              service: services[index], favourite: index.isOdd);
         });
   }
 }
 
-class RoomWidget extends StatelessWidget {
-  final RoomModel room;
+class ServiceWidget extends StatelessWidget {
+  final ServiceModel service;
   final bool favourite;
-  const RoomWidget({required this.room, required this.favourite, super.key});
+  const ServiceWidget(
+      {required this.service, required this.favourite, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class RoomWidget extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          launchScreen(RoomDetailPage(room: room));
+          // launchScreen(RoomDetailPage(room: room));
         },
         child: Row(
           children: [
@@ -46,7 +46,7 @@ class RoomWidget extends StatelessWidget {
               children: [
                 Container(
                   width: Get.width / 3,
-                  height: Get.width / 4.5,
+                  height: Get.width / 3.9,
                   decoration: BoxDecoration(
                     color: Theme.of(context).cardColor,
                     borderRadius: BorderRadius.circular(radius),
@@ -54,8 +54,8 @@ class RoomWidget extends StatelessWidget {
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(radius),
                       child: Hero(
-                          tag: room.imageUrl,
-                          child: CustomNetworkImage(url: room.imageUrl))),
+                          tag: service.imageUrl,
+                          child: CustomNetworkImage(url: service.imageUrl))),
                 ),
                 Positioned(
                   top: 5,
@@ -80,8 +80,8 @@ class RoomWidget extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          room.title,
-                          maxLines: 1,
+                          service.title,
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                               fontSize: 14, fontWeight: FontWeight.bold),
@@ -89,7 +89,7 @@ class RoomWidget extends StatelessWidget {
                       ),
                       Text(
                         // price
-                        '\$${room.price}',
+                        '\$${service.price}',
                         style: TextStyle(
                             fontSize: 16,
                             color: Theme.of(context).primaryColor,
@@ -98,22 +98,10 @@ class RoomWidget extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 5),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          '${room.person} person, ${room.bed} bed',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 12, color: Theme.of(context).hintColor),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
                   Text(
-                    room.facilities.join(', ').toString(),
+                    service.description,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontWeight: fontWeightNormal,
                         fontSize: 12,

@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:flutter/services.dart';
 import 'package:hotel_booking/controller/localization_controller.dart';
 import 'package:hotel_booking/controller/theme_controller.dart';
-import 'package:hotel_booking/data/model/language.dart';
+import 'package:hotel_booking/data/model/body/language.dart';
+import 'package:hotel_booking/data/repository/auth_repo.dart';
 import 'package:hotel_booking/data/repository/language_repo.dart';
 import 'package:hotel_booking/utils/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,6 +20,8 @@ Future<Map<String, Map<String, String>>> init() async {
   // Controller
   Get.lazyPut(() => ThemeController(sharedPreferences: Get.find()));
   Get.lazyPut(() => LocalizationController(sharedPreferences: Get.find()));
+  Get.lazyPut(
+      () => AuthRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
 
   // Retrieving localized data
   Map<String, Map<String, String>> languages = {};
@@ -27,7 +29,6 @@ Future<Map<String, Map<String, String>>> init() async {
     String jsonStringValues = await rootBundle
         .loadString('assets/language/${languageModel.languageCode}.json');
     Map<String, dynamic> mappedJson = jsonDecode(jsonStringValues);
-    log(mappedJson.toString());
     Map<String, String> json = {};
     mappedJson.forEach((key, value) {
       json[key] = value.toString();

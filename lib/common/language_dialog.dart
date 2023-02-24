@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_booking/controller/localization_controller.dart';
-import 'package:hotel_booking/data/model/language.dart';
+import 'package:hotel_booking/data/model/body/language.dart';
 import 'package:hotel_booking/utils/app_constants.dart';
 
 class LanguageDialog extends StatefulWidget {

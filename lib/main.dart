@@ -1,8 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_booking/controller/theme_controller.dart';
 import 'package:hotel_booking/utils/app_constants.dart';
-import 'package:hotel_booking/view/screens/dashboard/dashboard.dart';
 import 'helper/get_di.dart' as di;
 import 'controller/localization_controller.dart';
 import 'theme/dark_theme.dart';
@@ -13,6 +13,7 @@ import 'view/screens/splash/splash.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Map<String, Map<String, String>> languages = await di.init();
+  await Firebase.initializeApp();
   runApp(MyApp(languages: languages));
 }
 
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
           translations: Messages(languages: languages),
           fallbackLocale: Locale(AppConstants.languages[0].languageCode,
               AppConstants.languages[0].countryCode),
-          home: const DashboardPage(),
+          home: const SplashScreen(),
         );
       });
     }));

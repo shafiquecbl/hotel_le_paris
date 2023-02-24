@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hotel_booking/utils/images.dart';
-import 'package:hotel_booking/utils/style.dart';
-import 'package:hotel_booking/view/base/service_widget.dart';
+import 'package:hotel_booking/common/tabbutton.dart';
+import 'package:hotel_booking/view/base/services_view.dart';
 
 class ServicesScreen extends StatefulWidget {
   const ServicesScreen({super.key});
@@ -11,40 +10,57 @@ class ServicesScreen extends StatefulWidget {
 }
 
 class _ServicesScreenState extends State<ServicesScreen> {
+  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      fit: StackFit.expand,
-      children: [
-        Image.asset(Images.services, fit: BoxFit.cover),
-        Container(color: Colors.white.withOpacity(0.3)),
-        Column(
+      appBar: AppBar(
+        title: const Text('Services'),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+      ),
+      body: SafeArea(
+          child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
           children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.13),
-            // title,
-            Text('Services',
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: Colors.black, fontSize: getPixels(context, 34))),
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(3),
+                child: Row(
+                  children: [
+                    AnimatedTabButton(
+                      text: 'All Services',
+                      selected: _selectedIndex == 0,
+                      onTap: () {
+                        setState(() {
+                          _selectedIndex = 0;
+                        });
+                      },
+                    ),
+                    const SizedBox(width: 10),
+                    AnimatedTabButton(
+                      text: 'Favourites',
+                      selected: _selectedIndex == 1,
+                      onTap: () {
+                        setState(() {
+                          _selectedIndex = 1;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            const Expanded(child: ServicesView()),
           ],
         ),
-        Container(
-            margin:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
-            decoration: BoxDecoration(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(50), topRight: Radius.circular(50)),
-            ),
-            child: ListView(
-              padding: const EdgeInsets.only(top: 10),
-              children: const [
-                ServicesWidget(text: 'Shuttle Service'),
-                ServicesWidget(text: 'In-Room Features'),
-                ServicesWidget(text: 'Other Services')
-              ],
-            ))
-      ],
-    ));
+      )),
+    );
   }
 }

@@ -23,6 +23,7 @@ class _DashboardPageState extends State<DashboardPage> {
     ServicesScreen(),
     SettingPage()
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -17,6 +17,7 @@ class _RoomsScreenState extends State<RoomsScreen> {
       appBar: AppBar(
         title: const Text('Rooms'),
         centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
       body: SafeArea(
           child: Padding(

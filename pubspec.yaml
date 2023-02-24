@@ -24,6 +24,13 @@ dependencies:
   country_picker: ^2.0.19
   flutter_html: any
   url_launcher: ^6.1.2
+  motion_toast: any
+  flutter_smart_dialog: ^4.8.2+5
+
+  #Firebase
+  firebase_core: ^2.7.0
+  firebase_auth: ^4.2.9
+  
 
 dev_dependencies:
   flutter_test:

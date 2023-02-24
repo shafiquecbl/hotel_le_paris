@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_booking/common/button.dart';
+import 'package:hotel_booking/common/tabbutton.dart';
 import 'package:hotel_booking/common/textfield.dart';
 import 'package:hotel_booking/helper/navigation.dart';
 import 'package:hotel_booking/utils/icons.dart';
@@ -21,43 +22,29 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      fit: StackFit.expand,
-      children: [
-        Image.asset(Images.background, fit: BoxFit.cover),
-        Column(
-          children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-            Image.asset(
-              Images.logo,
-              width: MediaQuery.of(context).size.width * 0.8,
-            ),
-          ],
+        appBar: AppBar(
+          leading: const CustomBackButton(),
+          title: const Text('Sign in'),
+          centerTitle: true,
         ),
-        Container(
-          margin:
-              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.35),
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(50), topRight: Radius.circular(50)),
-          ),
-          child: SingleChildScrollView(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                // signin text
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    'Sign in',
+                Text('Welcome',
+                    style: Theme.of(context).textTheme.headlineLarge),
+                const SizedBox(height: 10),
+                Text('Enter your email and password\nto continue.',
                     style: Theme.of(context)
                         .textTheme
-                        .bodyLarge!
-                        .copyWith(fontSize: fontSizeExtraLarge(context)),
-                  ),
-                ),
+                        .bodyMedium!
+                        .copyWith(fontWeight: fontWeightNormal)),
+
+                //
+                SizedBox(height: getPixels(context, 20)),
                 // email textfield
                 CustomTextField(
                   controller: email,
@@ -84,18 +71,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Text(
                       'Don\'t have an account?',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.normal),
                     ),
                     TextButton(
                       onPressed: () {
                         launchScreen(const SignupScreen());
                       },
-                      child: Text(
-                        'Sign up',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            fontWeight: fontWeightBold,
-                            color: Theme.of(context).primaryColor),
-                      ),
+                      child: Text('Sign Up',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.normal)),
                     ),
                   ],
                 ),
@@ -108,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         text: 'If you continue, you agree to our',
                         style: Theme.of(context)
                             .textTheme
-                            .bodyLarge!
+                            .bodyMedium!
                             .copyWith(fontWeight: FontWeight.normal),
                         children: <TextSpan>[
                           TextSpan(
@@ -136,8 +127,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
           ),
-        )
-      ],
-    ));
+        ));
   }
 }

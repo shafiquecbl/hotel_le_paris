@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hotel_booking/common/button.dart';
 import 'package:hotel_booking/common/icons.dart';
 import 'package:hotel_booking/common/tabbutton.dart';
-import 'package:hotel_booking/data/model/food.dart';
+import 'package:hotel_booking/data/model/response/food.dart';
 import 'package:hotel_booking/utils/icons.dart';
 import 'package:hotel_booking/utils/images.dart';
 import 'package:hotel_booking/utils/network_image.dart';

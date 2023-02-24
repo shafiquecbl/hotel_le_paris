@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_booking/common/icons.dart';
-import 'package:hotel_booking/data/model/food.dart';
+import 'package:hotel_booking/data/model/response/food.dart';
 import 'package:hotel_booking/utils/network_image.dart';
 import 'package:hotel_booking/utils/style.dart';
 
@@ -13,6 +13,7 @@ class CartScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Cart'),
         centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
       body: SafeArea(
           child: Padding(
