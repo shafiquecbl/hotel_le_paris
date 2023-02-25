@@ -17,10 +17,10 @@ class FoodController extends GetxController implements GetxService {
   List<FoodModel> get foodList => _foodList;
 
   Future<void> init({bool reload = false}) async {
-    if (_foodList.isEmpty) {
+    if (_foodList.isEmpty || reload) {
       _isLoading = true;
       update();
-      getFoodList();
+      await getFoodList();
       _isLoading = false;
       update();
     }

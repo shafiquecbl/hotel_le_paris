@@ -1,118 +1,65 @@
-class RoomModel {
-  RoomModel(
-      {required this.imageUrl,
-      required this.title,
-      required this.price,
-      required this.bed,
-      required this.person,
-      required this.facilities});
+class Room {
+  Room(
+      {this.photos,
+      this.title,
+      this.price,
+      this.bed,
+      this.person,
+      this.facilities,
+      this.description,
+      this.roomNumber});
 
-  String imageUrl;
-  String title;
-  int person;
-  int bed;
-  List<String> facilities;
-  double price;
+  String? title, description;
+  List<String>? photos;
+  int? person, bed, roomNumber;
+  double? price;
+  List<Facility>? facilities = [];
 
-  factory RoomModel.fromJson(Map<String, dynamic> json) => RoomModel(
-      imageUrl: json["imageUrl"],
-      title: json["title"],
-      price: json["price"].toDouble(),
-      person: json["person"],
-      bed: json["bed"],
-      facilities: json["facilities"]);
+  Room.fromJson(Map<String, dynamic> json) {
+    title = json['title'];
+    description = json['description'];
+    photos = json['photos'] != null
+        ? List<String>.from(json['photos'].map((x) => x))
+        : null;
+    person = json['total_person'];
+    bed = json['beds'];
+    price = double.parse(json['price'].toString());
+    roomNumber = json['number'];
+    facilities = json['facilities'] != null
+        ? List<Facility>.from(
+            json['facilities'].map((x) => Facility.fromJson(x)))
+        : null;
+  }
+
+  Map<String, dynamic> toJson() => {
+        'title': title,
+        'description': description,
+        'photos': photos,
+        'total_person': person,
+        'bed': bed,
+        'price': price,
+        'number': roomNumber,
+        'facilities': facilities != null
+            ? List<Facility>.from(facilities!.map((x) => x.toJson()))
+            : null,
+      };
 }
 
-// demo rooms
-List<RoomModel> rooms = [
-  RoomModel(
-      imageUrl:
-          'https://www.eastparchotel.com/wp-content/uploads/2017/09/Deluxe-Room-2-3-scaled.jpg',
-      title: 'Deluxe Twin',
-      price: 100,
-      person: 2,
-      bed: 2,
-      facilities: [
-        'AC',
-        'Room Service',
-        'Free Wifi',
-        'TV',
-        'Breakfast',
-        'Parking'
-      ]),
-  RoomModel(
-      imageUrl:
-          'https://www.arenabeachmaldives.com/wp-content/uploads/2020/01/Deluxe-Double-room-with-Seaview.jpg',
-      title: 'Deluxe Double',
-      price: 100,
-      person: 2,
-      bed: 2,
-      facilities: [
-        'AC',
-        'Room Service',
-        'Free Wifi',
-        'TV',
-        'Breakfast',
-        'Parking'
-      ]),
-  RoomModel(
-      imageUrl:
-          'https://hiltonsfo.com/wp-content/uploads/2018/08/HSFRooms2014LARGE-4.jpg',
-      title: 'Deluxe King',
-      price: 100,
-      person: 2,
-      bed: 2,
-      facilities: [
-        'AC',
-        'Room Service',
-        'Free Wifi',
-        'TV',
-        'Breakfast',
-        'Parking'
-      ]),
-  RoomModel(
-      imageUrl:
-          'https://www.eastparchotel.com/wp-content/uploads/2017/09/Deluxe-Room-2-3-scaled.jpg',
-      title: 'Deluxe Twin',
-      price: 100,
-      person: 2,
-      bed: 2,
-      facilities: [
-        'AC',
-        'Room Service',
-        'Free Wifi',
-        'TV',
-        'Breakfast',
-        'Parking'
-      ]),
-  RoomModel(
-      imageUrl:
-          'https://www.arenabeachmaldives.com/wp-content/uploads/2020/01/Deluxe-Double-room-with-Seaview.jpg',
-      title: 'Deluxe Double',
-      price: 100,
-      person: 2,
-      bed: 2,
-      facilities: [
-        'AC',
-        'Room Service',
-        'Free Wifi',
-        'TV',
-        'Breakfast',
-        'Parking'
-      ]),
-  RoomModel(
-      imageUrl:
-          'https://hiltonsfo.com/wp-content/uploads/2018/08/HSFRooms2014LARGE-4.jpg',
-      title: 'Deluxe King',
-      price: 100,
-      person: 2,
-      bed: 2,
-      facilities: [
-        'AC',
-        'Room Service',
-        'Free Wifi',
-        'TV',
-        'Breakfast',
-        'Parking'
-      ]),
-];
+class Facility {
+  Facility({this.name, this.price, this.image});
+
+  String? name, image;
+  double? price;
+
+  Facility.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    price = double.parse(json['price'].toString());
+    image = json['image'];
+  }
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'price': price,
+        'image': image,
+      };
+}

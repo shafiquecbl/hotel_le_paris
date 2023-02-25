@@ -22,6 +22,12 @@ class AppConstants {
   // food
   static String getFoodListURL = '$baseURL/item/get';
 
+  // room
+  static String getRoomListURL = '$baseURL/room/get';
+
+  // service
+  static String getServiceListURL = '$baseURL/service/get';
+
   // Shared Key
   static const String THEME = 'theme';
   static const String COUNTRY_CODE = 'country_code';

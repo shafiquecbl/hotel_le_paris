@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:hotel_booking/common/button.dart';
@@ -10,7 +11,7 @@ import 'package:hotel_booking/utils/style.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class RoomDetailPage extends StatefulWidget {
-  final RoomModel room;
+  final Room room;
   const RoomDetailPage({required this.room, super.key});
 
   @override
@@ -33,7 +34,9 @@ class _RoomDetailPageState extends State<RoomDetailPage> {
             child: Stack(
               children: [
                 PageView.builder(
-                    itemCount: rooms.length,
+                    itemCount: widget.room.photos!.isEmpty
+                        ? 1
+                        : widget.room.photos!.length,
                     onPageChanged: (index) {
                       setState(() {
                         _selectIndex = index;
@@ -41,9 +44,13 @@ class _RoomDetailPageState extends State<RoomDetailPage> {
                     },
                     itemBuilder: (context, index) {
                       return Hero(
-                          tag: rooms[index].imageUrl,
-                          child:
-                              CustomNetworkImage(url: rooms[index].imageUrl));
+                          tag: widget.room.photos!.isEmpty
+                              ? widget.room.title!
+                              : widget.room.photos![index],
+                          child: CustomNetworkImage(
+                              url: widget.room.photos!.isEmpty
+                                  ? ''
+                                  : widget.room.photos![index]));
                     }),
                 // dot indicator
                 Positioned(
@@ -53,7 +60,7 @@ class _RoomDetailPageState extends State<RoomDetailPage> {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        for (var i = 0; i < rooms.length; i++)
+                        for (var i = 0; i < widget.room.photos!.length; i++)
                           Container(
                             margin: const EdgeInsets.symmetric(horizontal: 5),
                             height: 7,
@@ -106,7 +113,7 @@ class _RoomDetailPageState extends State<RoomDetailPage> {
                       children: [
                         Expanded(
                           child: Text(
-                            widget.room.title,
+                            widget.room.title!,
                             style: Theme.of(context)
                                 .textTheme
                                 .headline6!
@@ -171,30 +178,9 @@ class _RoomDetailPageState extends State<RoomDetailPage> {
                             style: TextStyle(
                                 fontSize: 16, fontWeight: fontWeightSemiBold),
                           ),
-                          const SizedBox(height: 20),
-                          GridView(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            padding: EdgeInsets.zero,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 4,
-                                    crossAxisSpacing: 10,
-                                    mainAxisSpacing: 10),
-                            children: [
-                              _facilitiesWidget('AC', Icons.bed),
-                              _facilitiesWidget('Television', FFIcons.user),
-                              _facilitiesWidget('Bathtub', Icons.bed),
-                              _facilitiesWidget('Wifi', FFIcons.wifi),
-                              _facilitiesWidget(
-                                  'Telephone', Icons.call_rounded),
-                              _facilitiesWidget('Safe', FFIcons.user),
-                              _facilitiesWidget(
-                                  '${widget.room.bed} beds', Icons.bed),
-                              _facilitiesWidget('${widget.room.person} persons',
-                                  FFIcons.user),
-                            ],
-                          ),
+                          const SizedBox(height: 10),
+                          for (var item in widget.room.facilities!)
+                            _facilitiesWidget(item.name!, item.image!),
                         ],
                       ),
                     ),
@@ -206,25 +192,7 @@ class _RoomDetailPageState extends State<RoomDetailPage> {
                           fontSize: 16, fontWeight: fontWeightSemiBold),
                     ),
                     Html(
-                      data: '''
-          <p> For this motorcycle bookings are&nbsp;<strong>non-refundable</strong>&nbsp;once accepted.</p>
-          
-          <p>This motorbike requires a licence category&nbsp;<strong>A</strong>, or equivalent.</p>
-          
-          <p>You&#39;ll need to be at least&nbsp;<strong>21 years old</strong>&nbsp;to rent it with 24 months driving experience.</p>
-          
-          <p>A&nbsp;<strong>refundable</strong>&nbsp;security-deposit is required (4.618 &euro; credit/debit-card ) to pay at the destination.</p>
-          
-          <p>This motorbike includes&nbsp;<strong>unlimited mileage</strong>&nbsp;per day in the price.</p>
-          
-          <p>Delivery/Collection services are for the&nbsp;<strong>San Francisco</strong>&nbsp;area, and discretionary.</p>
-          
-          <p>The rental company&nbsp;<strong>does not allow</strong>&nbsp;crossing country borders.</p>
-          
-          <p>Free inclusions and paid add-ons are subject to availability.</p>
-          
-          <p>We are here for you! If you have any questions or requirements,&nbsp;contact us.</p>
-          ''',
+                      data: widget.room.description,
                       shrinkWrap: true,
                       style: {
                         'body': Style(
@@ -264,22 +232,27 @@ class _RoomDetailPageState extends State<RoomDetailPage> {
         ],
       );
 
-  _facilitiesWidget(String text, IconData icon) => Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          CustomIcon(
-            icon: icon,
-            iconSize: 20,
-            padding: 5,
+  _facilitiesWidget(String text, String image) => ListTile(
+        contentPadding: const EdgeInsets.all(0),
+        visualDensity: const VisualDensity(horizontal: -4, vertical: -2),
+        leading: Container(
+          padding: const EdgeInsets.all(5),
+          width: 30,
+          height: 30,
+          decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.circular(30)),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(30),
+            child: CachedNetworkImage(imageUrl: image),
           ),
-          const SizedBox(height: 5),
-          Text(
-            text,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.subtitle2,
-          ),
-        ],
+        ),
+        title: Text(
+          text,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.start,
+          style: Theme.of(context).textTheme.subtitle2,
+        ),
       );
 }

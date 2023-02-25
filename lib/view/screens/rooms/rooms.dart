@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_booking/common/tabbutton.dart';
+import 'package:hotel_booking/controller/rooms_controller.dart';
 import 'package:hotel_booking/view/base/rooms_view.dart';
 
 class RoomsScreen extends StatefulWidget {
@@ -11,6 +12,17 @@ class RoomsScreen extends StatefulWidget {
 
 class _RoomsScreenState extends State<RoomsScreen> {
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    initAllData();
+    super.initState();
+  }
+
+  initAllData({bool reload = false}) async {
+    await RoomsController.to.init(reload: reload);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +69,13 @@ class _RoomsScreenState extends State<RoomsScreen> {
               ),
             ),
             const SizedBox(height: 10),
-            const Expanded(child: RoomView()),
+            Expanded(
+                child: RefreshIndicator(
+                    onRefresh: () {
+                      initAllData(reload: true);
+                      return Future.value();
+                    },
+                    child: const RoomView())),
           ],
         ),
       )),

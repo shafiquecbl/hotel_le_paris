@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_booking/common/icons.dart';
+import 'package:hotel_booking/controller/service_controller.dart';
 import 'package:hotel_booking/data/model/response/service.dart';
 import 'package:hotel_booking/utils/icons.dart';
 import 'package:hotel_booking/utils/network_image.dart';
@@ -11,13 +12,15 @@ class ServicesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: services.length,
-        padding: const EdgeInsets.only(top: 15),
-        itemBuilder: (context, index) {
-          return ServiceWidget(
-              service: services[index], favourite: index.isOdd);
-        });
+    return GetBuilder<ServiceController>(builder: (con) {
+      return ListView.builder(
+          itemCount: con.serviceList.length,
+          padding: const EdgeInsets.only(top: 15),
+          itemBuilder: (context, index) {
+            return ServiceWidget(
+                service: con.serviceList[index], favourite: index.isOdd);
+          });
+    });
   }
 }
 
@@ -54,8 +57,8 @@ class ServiceWidget extends StatelessWidget {
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(radius),
                       child: Hero(
-                          tag: service.imageUrl,
-                          child: CustomNetworkImage(url: service.imageUrl))),
+                          tag: service.image!,
+                          child: CustomNetworkImage(url: service.image))),
                 ),
                 Positioned(
                   top: 5,
@@ -80,7 +83,7 @@ class ServiceWidget extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          service.title,
+                          service.title!,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
@@ -99,7 +102,7 @@ class ServiceWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    service.description,
+                    service.description!,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(

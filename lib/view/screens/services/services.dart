@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_booking/common/tabbutton.dart';
+import 'package:hotel_booking/controller/service_controller.dart';
 import 'package:hotel_booking/view/base/services_view.dart';
 
 class ServicesScreen extends StatefulWidget {
@@ -11,6 +12,16 @@ class ServicesScreen extends StatefulWidget {
 
 class _ServicesScreenState extends State<ServicesScreen> {
   int _selectedIndex = 0;
+  @override
+  void initState() {
+    initAllData();
+    super.initState();
+  }
+
+  initAllData({bool reload = false}) async {
+    await ServiceController.to.init(reload: reload);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +68,13 @@ class _ServicesScreenState extends State<ServicesScreen> {
               ),
             ),
             const SizedBox(height: 10),
-            const Expanded(child: ServicesView()),
+            Expanded(
+                child: RefreshIndicator(
+                    onRefresh: () {
+                      initAllData(reload: true);
+                      return Future.value();
+                    },
+                    child: const ServicesView())),
           ],
         ),
       )),

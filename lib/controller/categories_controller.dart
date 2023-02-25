@@ -19,7 +19,7 @@ class CategoryController extends GetxController implements GetxService {
   bool get isLoading => _isLoading;
 
   Future<void> init({bool reload = false}) async {
-    if (_categoryList.isEmpty && _subcategoryList.isEmpty) {
+    if (_categoryList.isEmpty && _subcategoryList.isEmpty || reload) {
       _isLoading = true;
       update();
       await getCategoryList();

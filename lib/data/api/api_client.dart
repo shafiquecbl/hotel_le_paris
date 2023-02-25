@@ -18,7 +18,7 @@ class ApiClient extends GetxService {
   Future<http.Response?> getData(String uri,
       {Map<String, String>? headers}) async {
     try {
-      debugPrint('====> API Call: $uri\nHeader: $headers');
+      debugPrint('====> API Call: $uri\nHeader: $mainHeaders');
       http.Response response = await http
           .get(Uri.parse(uri), headers: headers ?? mainHeaders)
           .timeout(Duration(seconds: timeoutInSeconds));

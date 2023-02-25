@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_booking/common/icons.dart';
+import 'package:hotel_booking/controller/rooms_controller.dart';
 import 'package:hotel_booking/data/model/response/room.dart';
 import 'package:hotel_booking/helper/navigation.dart';
 import 'package:hotel_booking/utils/icons.dart';
@@ -13,17 +14,27 @@ class RoomView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: 3,
-        padding: const EdgeInsets.only(top: 15),
-        itemBuilder: (context, index) {
-          return RoomWidget(room: rooms[index], favourite: index.isOdd);
-        });
+    return GetBuilder<RoomsController>(builder: (con) {
+      return con.isLoading
+          ? ListView.builder(
+              itemCount: 6,
+              padding: const EdgeInsets.only(top: 15),
+              itemBuilder: (context, index) {
+                return const RommWidgetShimmer();
+              })
+          : ListView.builder(
+              itemCount: con.roomList.length,
+              padding: const EdgeInsets.only(top: 15),
+              itemBuilder: (context, index) {
+                return RoomWidget(
+                    room: con.roomList[index], favourite: index.isOdd);
+              });
+    });
   }
 }
 
 class RoomWidget extends StatelessWidget {
-  final RoomModel room;
+  final Room room;
   final bool favourite;
   const RoomWidget({required this.room, required this.favourite, super.key});
 
@@ -48,14 +59,19 @@ class RoomWidget extends StatelessWidget {
                   width: Get.width / 3,
                   height: Get.width / 4.5,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     borderRadius: BorderRadius.circular(radius),
                   ),
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(radius),
                       child: Hero(
-                          tag: room.imageUrl,
-                          child: CustomNetworkImage(url: room.imageUrl))),
+                          tag: room.photos!.isEmpty
+                              ? room.title!
+                              : room.photos!.first,
+                          child: CustomNetworkImage(
+                              url: room.photos!.isEmpty
+                                  ? ''
+                                  : room.photos!.first))),
                 ),
                 Positioned(
                   top: 5,
@@ -80,7 +96,7 @@ class RoomWidget extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          room.title,
+                          room.title!,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
@@ -113,7 +129,7 @@ class RoomWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    room.facilities.join(', ').toString(),
+                    facilities(),
                     style: TextStyle(
                         fontWeight: fontWeightNormal,
                         fontSize: 12,
@@ -124,6 +140,70 @@ class RoomWidget extends StatelessWidget {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  String facilities() {
+    String facilities = '';
+    for (var i = 0; i < room.facilities!.length; i++) {
+      facilities += room.facilities![i].name!;
+      if (i < room.facilities!.length - 1) {
+        facilities += ', ';
+      }
+    }
+    return facilities;
+  }
+}
+
+class RommWidgetShimmer extends StatelessWidget {
+  const RommWidgetShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(radius),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: Get.width / 3,
+            height: Get.width / 4.5,
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(radius),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: Get.width / 2,
+                  height: 20,
+                  color: Theme.of(context).cardColor,
+                ),
+                const SizedBox(height: 5),
+                Container(
+                  width: Get.width / 2,
+                  height: 20,
+                  color: Theme.of(context).cardColor,
+                ),
+                const SizedBox(height: 5),
+                Container(
+                  width: Get.width / 2,
+                  height: 20,
+                  color: Theme.of(context).cardColor,
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
