@@ -51,9 +51,19 @@ android {
         versionName '1.0'
     }
 
+    signingConfigs {
+        release {
+            storeFile file("keystore.jks")
+            storePassword "dcodax@1234"
+            keyAlias "upload"
+            keyPassword "dcodax@1234"
+        }
+    }
+
     buildTypes {
         release {
-            signingConfig signingConfigs.debug
+            minifyEnabled true
+            signingConfig signingConfigs.release
         }
     }
 }

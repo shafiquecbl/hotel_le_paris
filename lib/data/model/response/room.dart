@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 class Room {
   Room(
-      {this.photos,
+      {this.id,
+      this.photos,
       this.title,
       this.price,
       this.bed,
@@ -9,6 +12,7 @@ class Room {
       this.description,
       this.roomNumber});
 
+  int? id;
   String? title, description;
   List<String>? photos;
   int? person, bed, roomNumber;
@@ -16,11 +20,19 @@ class Room {
   List<Facility>? facilities = [];
 
   Room.fromJson(Map<String, dynamic> json) {
+    // if (json['photos'] is String) {
+    //   log("=====> ISSUE ${json['id']}");
+    // } else {
+    //   log("=====> OK ${json['id']}");
+    // }3
+    id = json['id'];
     title = json['title'];
     description = json['description'];
-    photos = json['photos'] != null
-        ? List<String>.from(json['photos'].map((x) => x))
-        : null;
+    photos = json['photos'] is String
+        ? []
+        : json['photos'] != null
+            ? List<String>.from(json['photos'].map((x) => x))
+            : null;
     person = json['total_person'];
     bed = json['beds'];
     price = double.parse(json['price'].toString());
@@ -32,6 +44,7 @@ class Room {
   }
 
   Map<String, dynamic> toJson() => {
+        'id': id,
         'title': title,
         'description': description,
         'photos': photos,

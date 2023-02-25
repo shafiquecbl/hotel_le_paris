@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:hotel_booking/common/icons.dart';
 import 'package:hotel_booking/common/tabbutton.dart';
@@ -48,7 +50,9 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
                     icon: Icons.remove,
                     iconSize: 18,
                     padding: 5,
-                    onTap: () {},
+                    onTap: () {
+                      log(widget.food.toJson().toString());
+                    },
                   ),
                   const SizedBox(width: 10),
                   Text(
@@ -138,7 +142,7 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(radius),
                       child: Hero(
-                          tag: widget.food.imageUrl!,
+                          tag: widget.food.id!,
                           child: CustomNetworkImage(url: widget.food.imageUrl)),
                     ),
                   ),

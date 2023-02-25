@@ -4,10 +4,13 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:hotel_booking/common/button.dart';
 import 'package:hotel_booking/common/icons.dart';
 import 'package:hotel_booking/common/tabbutton.dart';
+import 'package:hotel_booking/controller/theme_controller.dart';
 import 'package:hotel_booking/data/model/response/room.dart';
+import 'package:hotel_booking/helper/navigation.dart';
 import 'package:hotel_booking/utils/icons.dart';
 import 'package:hotel_booking/utils/network_image.dart';
 import 'package:hotel_booking/utils/style.dart';
+import 'package:hotel_booking/view/screens/webview/webview.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class RoomDetailPage extends StatefulWidget {
@@ -25,7 +28,12 @@ class _RoomDetailPageState extends State<RoomDetailPage> {
     return Scaffold(
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(15),
-        child: CustomButton(text: 'Check Availablity', onPressed: () {}),
+        child: CustomButton(
+            text: 'Check Availablity',
+            onPressed: () {
+              launchScreen(
+                  const LoadWebView(url: 'https://www.leparis.nc/all-rooms/'));
+            }),
       ),
       body: Column(
         children: [
@@ -44,9 +52,7 @@ class _RoomDetailPageState extends State<RoomDetailPage> {
                     },
                     itemBuilder: (context, index) {
                       return Hero(
-                          tag: widget.room.photos!.isEmpty
-                              ? widget.room.title!
-                              : widget.room.photos![index],
+                          tag: widget.room.id!,
                           child: CustomNetworkImage(
                               url: widget.room.photos!.isEmpty
                                   ? ''
@@ -82,20 +88,6 @@ class _RoomDetailPageState extends State<RoomDetailPage> {
                   top: MediaQuery.of(context).padding.top + 1,
                   left: 0,
                   child: const CustomBackButton(),
-                ),
-
-                // favourite button
-                Positioned(
-                  top: MediaQuery.of(context).padding.top + 1,
-                  right: 0,
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: CustomIcon(
-                      iconSize: 26,
-                      padding: 8,
-                      icon: FFIcons.heart,
-                    ),
-                  ),
                 ),
               ],
             ),
@@ -199,7 +191,7 @@ class _RoomDetailPageState extends State<RoomDetailPage> {
                             fontSize: const FontSize(12),
                             fontWeight: fontWeightNormal,
                             margin: const EdgeInsets.symmetric(horizontal: 10),
-                            color: Colors.black,
+                            color: isDark ? Colors.white : Colors.black,
                             fontFamily: 'poppins'),
                       },
                       onLinkTap: (url, context, map, element) {

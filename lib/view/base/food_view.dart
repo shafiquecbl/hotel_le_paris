@@ -92,7 +92,7 @@ class FoodWidgetHorizontal extends StatelessWidget {
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(radius),
                     child: Hero(
-                        tag: food.imageUrl!,
+                        tag: food.id!,
                         child: CustomNetworkImage(url: food.imageUrl))),
               ),
               const SizedBox(height: 5),

@@ -7,6 +7,6 @@ class ServiceRepo {
   ServiceRepo({required this.apiClient});
 
   Future<Response?> getServiceList() async {
-    return await apiClient.getData(AppConstants.getRoomListURL);
+    return await apiClient.getData(AppConstants.getServiceListURL);
   }
 }

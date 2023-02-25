@@ -97,7 +97,7 @@ class _EditProfileState extends State<EditProfile> {
                 CustomTextField(
                   readOnly: true,
                   controller: email,
-                  labelText: 'Email',
+                  labelText: 'Email (Unchangeable)',
                   hintText: 'Enter your email',
                 ),
                 const SizedBox(height: 20),

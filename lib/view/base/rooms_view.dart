@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hotel_booking/common/icons.dart';
 import 'package:hotel_booking/controller/rooms_controller.dart';
 import 'package:hotel_booking/data/model/response/room.dart';
 import 'package:hotel_booking/helper/navigation.dart';
-import 'package:hotel_booking/utils/icons.dart';
 import 'package:hotel_booking/utils/network_image.dart';
 import 'package:hotel_booking/utils/style.dart';
 import 'package:hotel_booking/view/screens/rooms/room_detail_page.dart';
@@ -53,39 +51,20 @@ class RoomWidget extends StatelessWidget {
         },
         child: Row(
           children: [
-            Stack(
-              children: [
-                Container(
-                  width: Get.width / 3,
-                  height: Get.width / 4.5,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    borderRadius: BorderRadius.circular(radius),
-                  ),
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(radius),
-                      child: Hero(
-                          tag: room.photos!.isEmpty
-                              ? room.title!
-                              : room.photos!.first,
-                          child: CustomNetworkImage(
-                              url: room.photos!.isEmpty
-                                  ? ''
-                                  : room.photos!.first))),
-                ),
-                Positioned(
-                  top: 5,
-                  right: 5,
-                  child: CustomIcon(
-                    padding: 2,
-                    icon: favourite ? FFIcons.heart : FFIcons.heartO,
-                    color: Theme.of(context).cardColor,
-                    iconColor: favourite
-                        ? Colors.red
-                        : Theme.of(context).iconTheme.color,
-                  ),
-                ),
-              ],
+            Container(
+              width: Get.width / 3,
+              height: Get.width / 4.5,
+              decoration: BoxDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                borderRadius: BorderRadius.circular(radius),
+              ),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(radius),
+                  child: Hero(
+                      tag: room.id!,
+                      child: CustomNetworkImage(
+                          url:
+                              room.photos!.isEmpty ? '' : room.photos!.first))),
             ),
             const SizedBox(width: 10),
             Expanded(

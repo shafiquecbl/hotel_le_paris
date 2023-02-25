@@ -9,6 +9,7 @@ import 'package:hotel_booking/data/model/response/user.dart';
 import 'package:hotel_booking/data/repository/auth_repo.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:hotel_booking/helper/navigation.dart';
+import 'package:hotel_booking/view/screens/auth/login.dart';
 import 'package:hotel_booking/view/screens/auth/widget/verify_email_dialog.dart';
 import 'package:hotel_booking/view/screens/dashboard/dashboard.dart';
 
@@ -107,6 +108,11 @@ class AuthController extends GetxController implements GetxService {
     await authRepo.updateUser(user.toJson());
     SmartDialog.dismiss();
     getSnackBar('Profile updated successfully');
+  }
+
+  logoutUser() async {
+    await FirebaseAuth.instance.signOut();
+    launchScreen(const LoginScreen(back: false), replace: true);
   }
 
   static AuthController get to => Get.find();

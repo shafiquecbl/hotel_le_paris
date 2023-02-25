@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_booking/common/button.dart';
+import 'package:hotel_booking/common/icons.dart';
 import 'package:hotel_booking/common/language_dialog.dart';
 import 'package:hotel_booking/controller/auth_controller.dart';
 import 'package:hotel_booking/controller/theme_controller.dart';
@@ -78,7 +79,13 @@ class SettingPage extends StatelessWidget {
                 builder: ((context) {
                   return const LanguageDialog();
                 }));
-          })
+          }),
+          _customTile(
+              context,
+              FFIcons.logout,
+              color: Colors.red,
+              'Logout'.tr,
+              () => AuthController.to.logoutUser()),
         ],
       ),
     ));
@@ -86,16 +93,13 @@ class SettingPage extends StatelessWidget {
 
   _customTile(
       BuildContext context, IconData icon, String text, Function() onPressed,
-      {bool theme = false}) {
+      {bool theme = false, Color? color}) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       horizontalTitleGap: 0,
       visualDensity: const VisualDensity(horizontal: 0, vertical: -2),
-      leading: Icon(
-        icon,
-        size: 28,
-        color: Theme.of(context).primaryColor,
-      ),
+      leading: CustomIcon(
+          icon: icon, color: color ?? Theme.of(context).primaryColor),
       title: Text(text,
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
       trailing: theme

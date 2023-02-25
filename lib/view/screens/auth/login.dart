@@ -12,7 +12,8 @@ import 'package:hotel_booking/view/screens/auth/widget/verify_email_dialog.dart'
 
 class LoginScreen extends StatefulWidget {
   final bool verificationn;
-  const LoginScreen({this.verificationn = false, super.key});
+  final bool back;
+  const LoginScreen({this.verificationn = false, this.back = true, super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -37,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: const CustomBackButton(),
+          leading: widget.back ? const CustomBackButton() : null,
           title: const Text('Sign in'),
           centerTitle: true,
         ),

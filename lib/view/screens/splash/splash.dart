@@ -55,12 +55,12 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget getHomepPage(bool value) {
     if (user != null && value) {
       if (user != null && !user!.emailVerified) {
-        return const LoginScreen(verificationn: true);
+        return const LoginScreen(verificationn: true, back: false);
       } else {
         return const DashboardPage();
       }
     } else if (user != null && value == false) {
-      return const SignupScreen();
+      return const SignupScreen(back: false);
     } else {
       return const IntroPage();
     }

@@ -6,7 +6,8 @@ import '../utils/icons.dart';
 import 'icons.dart';
 
 class CustomBackButton extends StatelessWidget {
-  const CustomBackButton({super.key});
+  final Function()? onTap;
+  const CustomBackButton({this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class CustomBackButton extends StatelessWidget {
         icon: FFIcons.leftArrow2,
         iconSize: 28,
         border: 8,
-        onTap: () => Navigator.pop(context),
+        onTap: onTap ?? () => Navigator.pop(context),
       ),
     );
   }

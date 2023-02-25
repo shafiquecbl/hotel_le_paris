@@ -26,6 +26,7 @@ dependencies:
   url_launcher: ^6.1.2
   motion_toast: any
   flutter_smart_dialog: ^4.8.2+5
+  flutter_inappwebview: ^5.4.3+7
 
   #Firebase
   firebase_core: ^2.7.0

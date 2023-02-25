@@ -8,7 +8,8 @@ import 'package:hotel_booking/utils/icons.dart';
 import 'package:hotel_booking/utils/style.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+  final bool back;
+  const SignupScreen({this.back = false, super.key});
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -20,12 +21,13 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  TextEditingController confirmpassword = TextEditingController();
   TextEditingController phone = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: const CustomBackButton(),
+          leading: widget.back ? const CustomBackButton() : null,
           title: const Text('Sign Up'),
           centerTitle: true,
         ),
@@ -83,6 +85,21 @@ class _SignupScreenState extends State<SignupScreen> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Please enter your password';
+                      }
+                      return null;
+                    },
+                  ),
+                  CustomTextField(
+                    controller: confirmpassword,
+                    labelText: 'Confirm Password',
+                    hintText: 'Enter  password again',
+                    obscureText: true,
+                    prefixIcon: const Icon(FFIcons.lock),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter your password';
+                      } else if (value != password.text) {
+                        return 'Password does not match';
                       }
                       return null;
                     },

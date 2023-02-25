@@ -30,54 +30,15 @@ class _ServicesScreenState extends State<ServicesScreen> {
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(3),
-                child: Row(
-                  children: [
-                    AnimatedTabButton(
-                      text: 'All Services',
-                      selected: _selectedIndex == 0,
-                      onTap: () {
-                        setState(() {
-                          _selectedIndex = 0;
-                        });
-                      },
-                    ),
-                    const SizedBox(width: 10),
-                    AnimatedTabButton(
-                      text: 'Favourites',
-                      selected: _selectedIndex == 1,
-                      onTap: () {
-                        setState(() {
-                          _selectedIndex = 1;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Expanded(
-                child: RefreshIndicator(
-                    onRefresh: () {
-                      initAllData(reload: true);
-                      return Future.value();
-                    },
-                    child: const ServicesView())),
-          ],
-        ),
-      )),
+      body: Padding(
+        padding: const EdgeInsets.all(10).copyWith(top: 0),
+        child: RefreshIndicator(
+            onRefresh: () {
+              initAllData(reload: true);
+              return Future.value();
+            },
+            child: const ServicesView()),
+      ),
     );
   }
 }
