@@ -4,10 +4,12 @@ import 'package:hotel_booking/common/textfield.dart';
 import 'package:hotel_booking/controller/auth_controller.dart';
 import 'package:hotel_booking/controller/categories_controller.dart';
 import 'package:hotel_booking/controller/food_controller.dart';
+import 'package:hotel_booking/helper/navigation.dart';
 import 'package:hotel_booking/utils/images.dart';
 import 'package:hotel_booking/utils/network_image.dart';
 import 'package:hotel_booking/utils/style.dart';
 import 'package:hotel_booking/view/base/food_view.dart';
+import 'package:hotel_booking/view/screens/search/food_search.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -119,8 +121,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             CustomTextField(
                               padding: EdgeInsets.zero,
                               controller: search,
-                              hintText: 'Search for hotels',
+                              hintText: 'Search for food',
+                              readOnly: true,
                               prefixIcon: const Icon(Icons.search_rounded),
+                              onTap: () {
+                                launchScreen(const FoodSearch());
+                              },
                             ),
                             const SizedBox(height: 20),
                             if (categoryController.isLoading ||
@@ -130,17 +136,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 const SizedBox(height: 5),
                               ]
                             ] else ...[
-                              for (var i = 0;
-                                  i < CategoryController.to.categoryList.length;
-                                  i++)
+                              for (var item
+                                  in CategoryController.to.categoryList)
                                 FoodViewHorizontal(
-                                    title: categoryController.getCategoryName(
-                                        categoryController.categoryList[i].id!),
+                                    title: categoryController
+                                        .getCategoryName(item.id!),
                                     foods: FoodController.to.foodList
-                                        .where((food) =>
-                                            food.category ==
-                                            categoryController
-                                                .categoryList[i].id)
+                                        .where(
+                                            (food) => food.category == item.id)
                                         .toList()),
                             ]
                           ],

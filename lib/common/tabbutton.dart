@@ -28,18 +28,24 @@ class AnimatedTabButton extends StatelessWidget {
   final String text;
   final bool selected;
   final Function()? onTap;
+  final bool expanded;
   const AnimatedTabButton(
       {required this.text,
       required this.onTap,
       this.selected = false,
+      this.expanded = true,
       super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: GestureDetector(
+    return expanded ? Expanded(child: _child(context)) : _child(context);
+  }
+
+  _child(BuildContext context) => GestureDetector(
         onTap: onTap,
         child: AnimatedContainer(
+          margin: expanded ? null : const EdgeInsets.only(right: 10),
+          padding: expanded ? null : const EdgeInsets.symmetric(horizontal: 20),
           duration: const Duration(milliseconds: 300),
           height: 45,
           decoration: BoxDecoration(
@@ -63,7 +69,5 @@ class AnimatedTabButton extends StatelessWidget {
             child: Text(text),
           ),
         ),
-      ),
-    );
-  }
+      );
 }

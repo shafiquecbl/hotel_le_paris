@@ -11,10 +11,12 @@ class FoodController extends GetxController implements GetxService {
   FoodController({required this.foodRepo});
 
   List<FoodModel> _foodList = [];
+  List<FoodModel> _filteredList = [];
   bool _isLoading = false;
 
   bool get isLoading => _isLoading;
   List<FoodModel> get foodList => _foodList;
+  List<FoodModel> get filteredList => _filteredList;
 
   Future<void> init({bool reload = false}) async {
     if (_foodList.isEmpty || reload) {
@@ -32,8 +34,21 @@ class FoodController extends GetxController implements GetxService {
       _foodList = (jsonDecode(response.body) as List)
           .map((e) => FoodModel.fromJson(e))
           .toList();
+      _filteredList = _foodList;
     } else {
       errorMessage();
+    }
+    update();
+  }
+
+  searchFood(String query) {
+    if (query.isEmpty) {
+      _filteredList = _foodList;
+    } else {
+      _filteredList = _foodList
+          .where(
+              (food) => food.title!.toLowerCase().contains(query.toLowerCase()))
+          .toList();
     }
     update();
   }

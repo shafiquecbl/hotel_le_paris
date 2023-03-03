@@ -10,6 +10,7 @@ class FoodModel {
       this.description,
       this.price,
       this.rating,
+      this.varations,
       this.addons});
 
   int? id, subCategory, category;
@@ -17,7 +18,8 @@ class FoodModel {
   String? title, description;
   double? rating;
   double? price;
-  List<Addons>? addons;
+  List<Addon>? varations;
+  List<Addon>? addons;
 
   factory FoodModel.fromJson(Map<String, dynamic> json) => FoodModel(
         id: json["id"],
@@ -29,8 +31,11 @@ class FoodModel {
         rating: json["rating"],
         description: json["description"],
         addons: json["addons"] != null
-            ? List<Addons>.from(json["addons"].map((x) => Addons.fromJson(x)))
-            : null,
+            ? List<Addon>.from(json["addons"].map((x) => Addon.fromJson(x)))
+            : [],
+        varations: json["variations"] != null
+            ? List<Addon>.from(json["variations"].map((x) => Addon.fromJson(x)))
+            : [],
       );
 
   Map<String, dynamic> toJson() => {
@@ -43,7 +48,10 @@ class FoodModel {
         "rating": rating,
         "description": description,
         "addons": addons != null
-            ? List<Addons>.from(addons!.map((x) => x.toJson()))
-            : null,
+            ? List<Addon>.from(addons!.map((x) => x.toJson()))
+            : [],
+        "variations": varations != null
+            ? List<Addon>.from(varations!.map((x) => x.toJson()))
+            : [],
       };
 }

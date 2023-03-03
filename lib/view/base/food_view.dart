@@ -19,51 +19,58 @@ class FoodViewHorizontal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Image.asset(Images.medal),
-              const SizedBox(width: 5),
-              Expanded(
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+    return foods.isEmpty
+        ? const SizedBox()
+        : Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Image.asset(Images.medal),
+                    const SizedBox(width: 5),
+                    Expanded(
+                      child: Text(
+                        title,
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      'View All',
+                      style: TextStyle(
+                          fontSize: 12, color: Theme.of(context).primaryColor),
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(width: 10),
-              Text(
-                'View All',
-                style: TextStyle(
-                    fontSize: 12, color: Theme.of(context).primaryColor),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          SizedBox(
-            height: Get.width / (food ? 2.35 : 2.4),
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: foods.length,
-                itemBuilder: (context, index) {
-                  return FoodWidgetHorizontal(
-                      food: foods[index], isLast: index == foods.length - 1);
-                }),
-          ),
-        ],
-      ),
-    );
+                const SizedBox(height: 10),
+                SizedBox(
+                  height: Get.width / (food ? 2.35 : 2.4),
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: foods.length,
+                      itemBuilder: (context, index) {
+                        return FoodWidgetHorizontal(
+                            food: foods[index],
+                            isLast: index == foods.length - 1);
+                      }),
+                ),
+              ],
+            ),
+          );
   }
 }
 
 class FoodWidgetHorizontal extends StatelessWidget {
   final FoodModel food;
   final bool isLast;
+  final bool search;
   const FoodWidgetHorizontal(
-      {required this.food, this.isLast = false, super.key});
+      {required this.food,
+      this.isLast = false,
+      this.search = false,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +90,7 @@ class FoodWidgetHorizontal extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: Get.width / 2.6,
+                width: search ? Get.width : Get.width / 2.6,
                 height: Get.width / 3.7,
                 decoration: BoxDecoration(
                   color: Theme.of(context).cardColor,

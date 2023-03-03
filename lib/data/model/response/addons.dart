@@ -1,11 +1,11 @@
-class Addons {
-  Addons({this.id, this.name, this.price});
+class Addon {
+  Addon({this.id, this.name, this.price});
 
   int? id;
   String? name;
   double? price;
 
-  factory Addons.fromJson(Map<String, dynamic> json) => Addons(
+  factory Addon.fromJson(Map<String, dynamic> json) => Addon(
       id: json["id"], name: json["name"], price: json["price"].toDouble());
 
   Map<String, dynamic> toJson() => {

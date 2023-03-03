@@ -9,7 +9,10 @@ class CustomTextField extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
+  final Function(String)? onChanged;
+  final Function()? onTap;
   final bool readOnly;
+  final bool enabled;
   const CustomTextField(
       {required this.controller,
       this.hintText,
@@ -21,6 +24,9 @@ class CustomTextField extends StatelessWidget {
       this.keyboardType = TextInputType.text,
       this.validator,
       this.readOnly = false,
+      this.onTap,
+      this.onChanged,
+      this.enabled = true,
       Key? key})
       : super(key: key);
 
@@ -52,6 +58,9 @@ class CustomTextField extends StatelessWidget {
             keyboardType: keyboardType,
             readOnly: readOnly,
             validator: validator,
+            onTap: onTap,
+            onChanged: onChanged,
+            enabled: enabled,
             decoration: InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 prefixIcon: prefixIcon,
@@ -65,8 +74,8 @@ class CustomTextField extends StatelessWidget {
                     .bodySmall!
                     .copyWith(color: Theme.of(context).hintColor),
                 enabledBorder: border(context),
-                focusedBorder:
-                    border(context, color: Theme.of(context).primaryColor),
+                focusedBorder: border(context,
+                    color: readOnly ? null : Theme.of(context).primaryColor),
                 errorBorder:
                     border(context, color: Theme.of(context).colorScheme.error),
                 focusedErrorBorder: border(context),

@@ -45,7 +45,7 @@ Route<T> buildPageRoute<T>(
         pageBuilder: (c, a1, a2) => child!,
         transitionsBuilder: (c, anim, a2, child) =>
             ScaleTransition(scale: anim, child: child),
-        transitionDuration: const Duration(milliseconds: 400),
+        transitionDuration: const Duration(milliseconds: 300),
       );
     } else if (pageRouteAnimation == PageRouteAnimation.Slide) {
       return PageRouteBuilder(
@@ -67,7 +67,7 @@ Route<T> buildPageRoute<T>(
                   .animate(anim),
           child: child,
         ),
-        transitionDuration: const Duration(milliseconds: 500),
+        transitionDuration: const Duration(milliseconds: 350),
       );
     }
   }

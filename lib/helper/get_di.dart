@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:hotel_booking/controller/auth_controller.dart';
+import 'package:hotel_booking/controller/cart_controller.dart';
 import 'package:hotel_booking/controller/categories_controller.dart';
 import 'package:hotel_booking/controller/food_controller.dart';
 import 'package:hotel_booking/controller/localization_controller.dart';
@@ -10,6 +11,7 @@ import 'package:hotel_booking/controller/theme_controller.dart';
 import 'package:hotel_booking/data/api/api_client.dart';
 import 'package:hotel_booking/data/model/body/language.dart';
 import 'package:hotel_booking/data/repository/auth_repo.dart';
+import 'package:hotel_booking/data/repository/cart_repo.dart';
 import 'package:hotel_booking/data/repository/category_repo.dart';
 import 'package:hotel_booking/data/repository/food_repo.dart';
 import 'package:hotel_booking/data/repository/language_repo.dart';
@@ -33,6 +35,7 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => FoodRepo(apiClient: Get.find()));
   Get.lazyPut(() => RoomRepo(apiClient: Get.find()));
   Get.lazyPut(() => ServiceRepo(apiClient: Get.find()));
+  Get.lazyPut(() => CartRepo(sharedPreferences: Get.find()));
 
   // Controller
   Get.lazyPut(() => ThemeController(sharedPreferences: Get.find()));
@@ -42,6 +45,7 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => FoodController(foodRepo: Get.find()));
   Get.lazyPut(() => RoomsController(roomRepo: Get.find()));
   Get.lazyPut(() => ServiceController(serviceRepo: Get.find()));
+  Get.lazyPut(() => CartController(cartRepo: Get.find()));
 
   // Retrieving localized data
   Map<String, Map<String, String>> languages = {};
