@@ -6,7 +6,9 @@ class Addon {
   double? price;
 
   factory Addon.fromJson(Map<String, dynamic> json) => Addon(
-      id: json["id"], name: json["name"], price: json["price"].toDouble());
+      id: json["id"],
+      name: json["name"],
+      price: double.parse(json["price"].toString()));
 
   Map<String, dynamic> toJson() => {
         "id": id,

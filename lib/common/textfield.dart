@@ -13,6 +13,7 @@ class CustomTextField extends StatelessWidget {
   final Function()? onTap;
   final bool readOnly;
   final bool enabled;
+  final bool black;
   const CustomTextField(
       {required this.controller,
       this.hintText,
@@ -27,6 +28,7 @@ class CustomTextField extends StatelessWidget {
       this.onTap,
       this.onChanged,
       this.enabled = true,
+      this.black = false,
       Key? key})
       : super(key: key);
 
@@ -44,10 +46,8 @@ class CustomTextField extends StatelessWidget {
               alignment: AlignmentDirectional.centerStart,
               child: Text(
                 labelText!,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(color: Theme.of(context).hintColor),
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: black ? null : Theme.of(context).hintColor),
               ),
             ),
             const SizedBox(height: 5),

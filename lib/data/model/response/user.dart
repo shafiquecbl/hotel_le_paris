@@ -2,8 +2,14 @@
 
 class AppUser {
   AppUser(
-      {this.id, this.name, this.email, this.phone, this.password, this.image});
-  int? id;
+      {this.id,
+      this.name,
+      this.email,
+      this.phone,
+      this.password,
+      this.image,
+      this.loyaltyPoints});
+  int? id, loyaltyPoints;
   String? name, email, phone, password, image;
 
   factory AppUser.fromJson(Map<String, dynamic> json) => AppUser(
@@ -13,6 +19,7 @@ class AppUser {
         phone: json['phoneNumber'],
         password: json['password'],
         image: json['image'],
+        loyaltyPoints: json['loyalty_points'],
       );
 
   Map<String, dynamic> toJson() => {

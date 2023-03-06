@@ -32,6 +32,7 @@ class AppConstants {
   static const String THEME = 'theme';
   static const String COUNTRY_CODE = 'country_code';
   static const String LANGUAGE_CODE = 'language_code';
+  static const String CART_LIST = 'cart_list';
 
   // Language
   static List<LanguageModel> languages = [

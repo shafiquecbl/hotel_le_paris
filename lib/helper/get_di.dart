@@ -45,7 +45,8 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => FoodController(foodRepo: Get.find()));
   Get.lazyPut(() => RoomsController(roomRepo: Get.find()));
   Get.lazyPut(() => ServiceController(serviceRepo: Get.find()));
-  Get.lazyPut(() => CartController(cartRepo: Get.find()));
+  Get.lazyPut(
+      () => CartController(cartRepo: Get.find(), foodController: Get.find()));
 
   // Retrieving localized data
   Map<String, Map<String, String>> languages = {};

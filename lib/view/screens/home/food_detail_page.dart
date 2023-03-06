@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+import 'package:get/get.dart';
 import 'package:hotel_booking/common/icons.dart';
 import 'package:hotel_booking/common/tabbutton.dart';
+import 'package:hotel_booking/controller/cart_controller.dart';
+import 'package:hotel_booking/data/model/body/cart.dart';
 import 'package:hotel_booking/data/model/response/addons.dart';
 import 'package:hotel_booking/data/model/response/food.dart';
+import 'package:hotel_booking/helper/navigation.dart';
 import 'package:hotel_booking/utils/icons.dart';
 import 'package:hotel_booking/utils/images.dart';
 import 'package:hotel_booking/utils/network_image.dart';
@@ -18,21 +21,20 @@ class FoodDetailPage extends StatefulWidget {
 }
 
 class _FoodDetailPageState extends State<FoodDetailPage> {
-  Addon? selectedVariation;
-  List<Addon> selectedAddons = [];
+  int? selectedVariation;
+  List<bool> selectedAddons = [];
   int quantity = 1;
   double finalPrice = 0;
 
   @override
   void initState() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      setState(() {
-        if (widget.food.varations!.isNotEmpty) {
-          selectedVariation = widget.food.varations![0];
-        }
-        setPrice(init: true);
-      });
-    });
+    if (widget.food.varations!.isNotEmpty) {
+      selectedVariation = 0;
+    }
+    selectedAddons =
+        List.generate(widget.food.addons!.length, (index) => false);
+
+    setPrice();
     super.initState();
   }
 
@@ -47,20 +49,20 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
     setPrice();
   }
 
-  setPrice({bool init = false}) {
+  setPrice() {
     double price = 0;
     price += widget.food.price!;
     if (selectedVariation != null) {
-      price += selectedVariation!.price!;
+      price += widget.food.varations![selectedVariation!].price!;
     }
-    for (var element in selectedAddons) {
-      price += element.price!;
+    for (var addon in selectedAddons) {
+      if (addon) {
+        price += widget.food.addons![selectedAddons.indexOf(addon)].price!;
+      }
     }
     price *= quantity;
     finalPrice = price;
-    if (!init) {
-      setState(() {});
-    }
+    setState(() {});
   }
 
   @override
@@ -153,18 +155,25 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    Text('Add Item',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: Colors.white)),
-                    const SizedBox(width: 10),
-                    Image.asset(
-                      Images.cart,
-                      width: 18,
-                      height: 18,
-                      color: Colors.white,
-                    )
+                    TextButton(
+                      onPressed: _addToCart,
+                      child: Wrap(
+                        children: [
+                          Text('Add Item',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(color: Colors.white)),
+                          const SizedBox(width: 10),
+                          Image.asset(
+                            Images.cart,
+                            width: 18,
+                            height: 18,
+                            color: Colors.white,
+                          )
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -251,7 +260,7 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: widget.food.varations!.length,
                     itemBuilder: ((context, index) {
-                      Addon variation = widget.food.addons![index];
+                      Addon variation = widget.food.varations![index];
                       return _variationWidget(variation, index);
                     })),
                 const SizedBox(height: 15)
@@ -316,7 +325,7 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
             const SizedBox(width: 10),
             Expanded(
               child: Text(
-                variation.name!,
+                variation.name!.capitalizeFirst!,
                 style: Theme.of(context).textTheme.subtitle2,
               ),
             ),
@@ -330,9 +339,12 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
             ),
           ],
         ),
-        value: 0,
-        groupValue: index,
-        onChanged: (value) {},
+        value: index,
+        groupValue: selectedVariation,
+        onChanged: (value) {
+          selectedVariation = value;
+          setPrice();
+        },
         controlAffinity: ListTileControlAffinity.trailing,
       );
 
@@ -376,8 +388,32 @@ class _FoodDetailPageState extends State<FoodDetailPage> {
             ),
           ],
         ),
-        value: false,
-        onChanged: (value) {},
+        value: selectedAddons[index],
+        onChanged: (value) {
+          selectedAddons[index] = value!;
+          setPrice();
+        },
         controlAffinity: ListTileControlAffinity.trailing,
       );
+
+  _addToCart() {
+    int? selectedVariationId;
+    if (selectedVariation != null) {
+      selectedVariationId = widget.food.varations![selectedVariation!].id!;
+    }
+    List<int> selectedAddonsId = [];
+    for (int i = 0; i < selectedAddons.length; i++) {
+      if (selectedAddons[i]) {
+        selectedAddonsId.add(widget.food.addons![i].id!);
+      }
+    }
+    CartItem cartItem = CartItem(
+        prodctId: widget.food.id!,
+        quantity: 1,
+        variationId: selectedVariationId!,
+        addonIds: selectedAddonsId,
+        total: finalPrice);
+
+    CartController.to.addToCart(cartItem);
+  }
 }

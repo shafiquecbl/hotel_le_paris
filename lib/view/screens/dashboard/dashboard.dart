@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotel_booking/controller/auth_controller.dart';
+import 'package:hotel_booking/controller/cart_controller.dart';
 import 'package:hotel_booking/utils/images.dart';
 import 'package:hotel_booking/view/screens/cart/cart.dart';
 import 'package:hotel_booking/view/screens/home/home.dart';
@@ -28,6 +29,7 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   void initState() {
     AuthController.to.getUser();
+    CartController.to.getCartList();
     super.initState();
   }
 
